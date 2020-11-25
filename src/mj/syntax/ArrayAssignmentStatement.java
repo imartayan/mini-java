@@ -22,7 +22,11 @@ public class ArrayAssignmentStatement implements Statement {
 	}
 
 	public void eval(Interpreter interp, Heap heap, LocalVar vars) throws ExecError {
-		//TODO
+		Value arr = identifier.eval(interp, heap, vars);
+		Value index = expression1.eval(interp, heap, vars);
+		Value i = expression2.eval(interp, heap, vars);
+
+		heap.arrayUpdate(arr, (Int) index, (Int) i);
 	}
 
 	public void print(Printer pp) {
