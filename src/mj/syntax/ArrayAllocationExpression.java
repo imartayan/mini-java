@@ -17,7 +17,11 @@ public class ArrayAllocationExpression implements Expression {
 	}
 
 	public Value eval(Interpreter interp, Heap heap, LocalVar vars) throws ExecError {
-		return null; //TODO
+		try {
+			return heap.allocArray((Int) size.eval(interp, heap, vars));
+		} catch (Exception e) {
+			throw new ExecError("ArrayAllocationExpression : Unable to cast size to Int");
+		}
 	}
 
 	public void print() {
