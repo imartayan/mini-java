@@ -2,6 +2,7 @@ package mj;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.Collections;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -17,13 +18,12 @@ public class SimpleHeap implements Heap {
 	}
 
 	public Value allocObject(Identifier className) {
-		// TODO
-		return null;
+		// Imported java.util.Collections just for that :
+		return new ObjectRef(className, Collections.emptyList());
 	}
 
 	public Value allocArray(Int size) {
-		// TODO
-		return null;
+		return new ArrayRef(size);
 	}
 
 	private class ArrayRef implements Value {
@@ -35,17 +35,15 @@ public class SimpleHeap implements Heap {
 	}
 
 	public Int arrayLength(Value v) {
-		// TODO
-		return null;
+		return new Int(((ArrayRef) v).ref.length);
 	}
 
 	public Int arrayLookup(Value v, Int index) {
-		// TODO
-		return null;
+		return new Int(((ArrayRef) v).ref[index.val]);
 	}
 
 	public void arrayUpdate(Value v, Int index, Int i) {
-		// TODO
+		((ArrayRef) v).ref[index.val] = i.val;
 	}
 
 	private class ObjectRef implements Value {
@@ -59,22 +57,19 @@ public class SimpleHeap implements Heap {
 	}
 
 	public Value fieldLookup(Value v, Identifier field) {
-		// TODO
-		return null;
+		return ((ObjectRef) v).ref.read(field);
 	}
 
 	public void fieldUpdate(Value v1, Identifier field, Value v2) {
-		// TODO
+		((ObjectRef) v1).ref.store(field, v2);
 	}
 
 	public Type fieldType(Value v, Identifier field) {
-		// TODO
-		return null;
+		return ((ObjectRef) v).ref.type(field);
 	}
 
 	public Identifier classname(Value v) {
-		// TODO
-		return null;
+		return ((ObjectRef) v).classname;
 	}
 
 	public static void main(String[] arg) {
