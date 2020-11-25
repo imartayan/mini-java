@@ -26,7 +26,11 @@ public class ArrayAssignmentStatement implements Statement {
 		Value index = expression1.eval(interp, heap, vars);
 		Value i = expression2.eval(interp, heap, vars);
 
-		heap.arrayUpdate(arr, (Int) index, (Int) i);
+		try {
+			heap.arrayUpdate(arr, (Int) index, (Int) i);
+		} catch (ClassCastException e) {
+			throw new ExecError("ArrayAssifnmentStatement : Unable to cast arguments to Int");
+		}
 	}
 
 	public void print(Printer pp) {
