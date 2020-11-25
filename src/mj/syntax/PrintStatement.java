@@ -28,7 +28,7 @@ public class PrintStatement implements Statement {
 	}
 
 	public void typeCheck(TypeChecker context) throws TypeError {
-		// TODO Auto-generated method stub
+		expression.type(context);
 
 	}
 

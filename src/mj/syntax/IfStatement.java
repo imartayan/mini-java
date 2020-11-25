@@ -40,8 +40,12 @@ public class IfStatement implements Statement {
 	}
 
 	public void typeCheck(TypeChecker context) throws TypeError {
-		// TODO Auto-generated method stub
-
+		Type condType = this.expression.type(context);
+		if(!condType.isSubtypeOf(new BooleanType(), context)) {
+			throw new TypeError("Type mismatch: cannot convert from " + condType.toString() + " to boolean");
+		}
+		this.statement1.typeCheck(context);
+		this.statement2.typeCheck(context);
 	}
 
 }
