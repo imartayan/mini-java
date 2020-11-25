@@ -44,9 +44,14 @@ public class ArrayAssignmentStatement implements Statement {
 	}
 
 	public void typeCheck(TypeChecker context) throws TypeError {
-		// TODO
-
+        Type expr1Type = this.expression1.type(context);
+        Type expr2Type = this.expression2.type(context);
+		if(!expr1Type.isSubtypeOf(new IntegerType(), context)) {
+            throw new TypeError("Type mismatch: cannot convert from " + expr1Type.toString() + " to int");
+        }
+        if (!expr2Type.isSubtypeOf(new IntegerType(), context)) {
+            throw new TypeError("Type mismatch: cannot convert from " + expr2Type.toString() + " to int");
+        }
 	}
-	
-}
 
+}
