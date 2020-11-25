@@ -19,15 +19,19 @@ public class Program {
 	public void print() {
 		Printer pp = new Printer();
 		main.print(pp);
-		for (ClassDeclaration cd: declarations) {
+		for (ClassDeclaration cd : declarations) {
 			System.out.println();
 			cd.print(pp);
 		}
 	}
 
-   public void typeCheck(TypeChecker context) throws TypeError {
-		for(ClassDeclaration cdec : this.declarations) {
+	public void typeCheck(TypeChecker context) throws TypeError {
+		for (ClassDeclaration cdec : this.declarations) {
+			context.getClassAttributesTypes(cdec);
+
+		}
+		for (ClassDeclaration cdec : this.declarations) {
 			cdec.typeCheck(context);
 		}
-   }
+	}
 }
