@@ -36,8 +36,11 @@ public class WhileStatement implements Statement {
 
 	@Override
 	public void typeCheck(TypeChecker t) throws TypeError {
-		// TODO Auto-generated method stub
-
+		Type condType = this.expression.type(t);
+		if(!condType.isSubtypeOf(new BooleanType(), t)) {
+			throw new TypeError("Type mismatch: cannot convert from " + condType.toString() + " to boolean");
+		}
+		this.statement.typeCheck(t);
 	}
 
 }

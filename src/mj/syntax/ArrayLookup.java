@@ -37,8 +37,15 @@ public class ArrayLookup implements Expression {
 
 	@Override
 	public Type type(TypeChecker context) throws TypeError {
-		// TODO Auto-generated method stub
-		return null;
+		Type expr1Type = this.expression1.type(context);
+		Type expr2Type = this.expression2.type(context);
+		if (!expr1Type.isSubtypeOf(new ArrayType(), context)) {
+			throw new TypeError(
+					"The type of the expression must be an array but it resolved to " + expr1Type.toString());
+		}
+		if (!expr2Type.isSubtypeOf(new IntegerType(), context)) {
+			throw new TypeError("Type mismatch: cannot convert from " + expr2Type.toString() + " to integer");
+		}
+		return new IntegerType();
 	}
 }
-

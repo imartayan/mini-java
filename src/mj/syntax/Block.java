@@ -18,7 +18,9 @@ public class Block implements Statement {
 	}
 
 	public void eval(Interpreter interp, Heap heap, LocalVar vars) throws ExecError {
-		// TODO
+		for (Statement statement : statements) {
+            statement.eval(interp, heap, vars);
+        }
 	}
 
 	public void print(Printer pp) {

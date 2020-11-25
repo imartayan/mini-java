@@ -13,8 +13,7 @@ public class BooleanType implements Type {
     }
 
     public boolean isSubtypeOf(Type t, TypeChecker context) {
-        // TODO
-        return false;
+        return t instanceof BooleanType;
     }
     
     @Override

@@ -35,9 +35,11 @@ public class NotExpression implements Expression {
 	}
 
 	public Type type(TypeChecker context) throws TypeError {
-		// TODO Auto-generated method stub
-		return null;
+		Type condType = this.expression.type(context);
+		if (condType.isSubtypeOf(new BooleanType(), context)) {
+			throw new TypeError("Type mismatch: cannot convert from " + condType.toString() + " to boolean");
+		}
+		return condType;
 	}
 
 }
-

@@ -31,8 +31,11 @@ public class ArrayAllocationExpression implements Expression {
 	}
 
 	public Type type(TypeChecker context) throws TypeError {
-		// TODO Auto-generated method stub
-		return null;
+		Type sizeType = this.size.type(context);
+		if(!sizeType.isSubtypeOf(new IntegerType(), context)) {
+			throw new TypeError("Type mismatch: cannot convert from " + sizeType.toString() + " to integer");
+		}
+		return sizeType;
 	}
 
 }
