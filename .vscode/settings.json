@@ -1,5 +1,6 @@
 {
+    "editor.formatOnSave": false,
     "java.project.referencedLibraries": [
-	"mj.jar"
+        "mj.jar"
     ]
 }
