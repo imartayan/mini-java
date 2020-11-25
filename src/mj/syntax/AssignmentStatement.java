@@ -19,7 +19,10 @@ public class AssignmentStatement implements Statement {
 	}
 
 	public void eval(Interpreter interp, Heap heap, LocalVar vars) throws ExecError {
-		// TODO
+		Value value = expression.eval(interp, heap, vars);
+		Value object = blabla.eval(interp, heap, vars);
+
+		heap.fieldUpdate(object,identifier,value);
 	}
 
 	public void print(Printer pp) {
