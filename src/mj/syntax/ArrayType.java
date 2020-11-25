@@ -10,8 +10,7 @@ public class ArrayType implements Type {
     }
 
     public boolean isSubtypeOf(Type t, TypeChecker context) {
-        // TODO 
-        return false;
+        return t instanceof ArrayType;
     }
 
     @Override

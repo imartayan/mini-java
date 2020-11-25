@@ -24,8 +24,7 @@ public class IntegerLiteral implements Expression {
 	}
 
 	public Type type(TypeChecker context) throws TypeError {
-		// TODO Auto-generated method stub
-		return null;
+		return new IntegerType();
 	}
 
 }

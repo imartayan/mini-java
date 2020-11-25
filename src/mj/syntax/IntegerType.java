@@ -12,8 +12,7 @@ public class IntegerType implements Type {
 
 	@Override
     public boolean isSubtypeOf(Type t, TypeChecker context) {
-        // TODO
-        return false;
+        return t instanceof IntegerType;
     }
 
     @Override

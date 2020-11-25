@@ -34,7 +34,9 @@ public class Block implements Statement {
 	}
 
 	public void typeCheck(TypeChecker context) throws TypeError {
-		// TODO Auto-generated method stub
+		for(Statement statement : this.statements) {
+			statement.typeCheck(context);
+		}
 
 	}
 }

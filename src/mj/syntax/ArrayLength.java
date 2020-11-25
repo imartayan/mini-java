@@ -27,9 +27,11 @@ public class ArrayLength implements Expression {
 
 	@Override
 	public Type type(TypeChecker context) throws TypeError {
-		// TODO Auto-generated method stub
-		return null;
+		Type argType = this.argument.type(context);
+		if (!argType.isSubtypeOf(new ArrayType(), context)) {
+			throw new TypeError("The type of the expression must be an array but it resolved to " + argType.toString());
+		}
+		return new IntegerType();
 	}
 
 }
-
