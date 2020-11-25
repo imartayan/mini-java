@@ -17,7 +17,11 @@ public class PrintStatement implements Statement {
 	}
 
 	public void eval(Interpreter interp, Heap heap, LocalVar vars) throws ExecError {
-		// TODO
+		try {
+			System.out.println(((Int) expression.eval(interp, heap, vars)).toString());
+		} catch (ClassCastException e) {
+			throw new ExecError("PrintStatement : Unable to cast to Int from expression");
+		}
 	}
 
 	public void print(Printer pp) {

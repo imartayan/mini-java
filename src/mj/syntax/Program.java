@@ -28,12 +28,17 @@ public class Program {
 	}
 
 	public void typeCheck(TypeChecker context) throws TypeError {
-        context.getInheritance(this.declarations);
 
 		for (ClassDeclaration cdec : this.declarations) {
 			context.getClassAttributesTypes(cdec);
+        }
 
-		}
+        context.getInheritance(this.declarations);
+
+        for (ClassDeclaration cdec : this.declarations) {
+            context.copyParentAttributesTypes(cdec.name);
+        }
+
 		for (ClassDeclaration cdec : this.declarations) {
 			Map<Identifier, Type> localVars = context.getClassVars(cdec.name);
 			cdec.typeCheck(context);

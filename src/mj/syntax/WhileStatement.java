@@ -19,7 +19,11 @@ public class WhileStatement implements Statement {
 	}
 
 	public void eval(Interpreter interp, Heap heap, LocalVar vars) throws ExecError {
-		//TODO
+		Int cond = (Int) expression.eval(interp, heap, vars);
+		while(cond.val != 0) {
+			statement.eval(interp, heap, vars);
+			cond = (Int) expression.eval(interp, heap, vars);
+		}
 	}
 
 	public void print(Printer pp) {

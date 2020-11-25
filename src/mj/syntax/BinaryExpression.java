@@ -21,7 +21,7 @@ public class BinaryExpression implements Expression {
 	};
 
 	public Value eval(Interpreter interp, Heap heap, LocalVar vars) throws ExecError {
-		return null; //TODO
+		return operation.eval((Int) operand1.eval(interp, heap, vars), (Int) operand2.eval(interp, heap, vars));
 	}
 
 	public void print() {

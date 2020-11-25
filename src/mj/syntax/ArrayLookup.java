@@ -23,7 +23,7 @@ public class ArrayLookup implements Expression {
 		try {
 			Int index = (Int) expression2.eval(interp, heap, vars);
 			return heap.arrayLookup(array, index);
-		} catch (Exception e) {
+		} catch (ClassCastException e) {
 			throw new ExecError("ArrayLookup.eval() : Unable to cast index argument to Int");
 		}
 	}
