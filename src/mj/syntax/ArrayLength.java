@@ -16,7 +16,8 @@ public class ArrayLength implements Expression {
 	}
 
 	public Value eval(Interpreter interp, Heap heap, LocalVar vars) throws ExecError {
-		return null; //TODO
+		Value array = argument.eval(interp, heap, vars);
+		return heap.arrayLength(array);
 	}
 
 	public void print() {
