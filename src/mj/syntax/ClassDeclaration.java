@@ -51,7 +51,13 @@ public class ClassDeclaration {
 
 	public void typeCheck(TypeChecker t) throws TypeError {
 		if(this.superClass.isPresent()) {
-			this.superClass.get().type(t);
+			t.addVariables(this.superClass.get());
+		}
+		for(VarDeclaration newVar : this.varDeclarations) {
+			//TODO : add to local context
+		}
+		for(MethodDeclaration newMethod : this.methodDeclarations) {
+			newMethod.typeCheck(t);
 		}
 	}
 
