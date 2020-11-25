@@ -65,6 +65,17 @@ public class MethodDeclaration {
 
 	public void typeCheck(TypeChecker context) throws TypeError {
 		// TODO
+		for(VarDeclaration newParam : this.params) {
+			// add to context
+		}
+		for(VarDeclaration newVar : this.declarations) {
+			// add to context
+		}
+		this.body.typeCheck(context);
+		Type returnType = this.result.type(context);
+		if(returnType != this.resType) {
+			throw new TypeError("Type mismatch : cannot convert from " + this.resType + " to " + returnType);
+		}
 	}
 }
 
