@@ -16,7 +16,7 @@ public class IntegerLiteral implements Expression {
 	}
 
 	public Value eval(Interpreter interp, Heap heap, LocalVar vars) {
-		return null; //TODO
+		return new Int(this.value);
 	}
 
 	public void print() {

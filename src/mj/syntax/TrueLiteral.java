@@ -11,7 +11,7 @@ import mj.type_checker.TypeError;
 public class TrueLiteral implements Expression {
 
 	public Value eval(Interpreter interp, Heap heap, LocalVar vars) {
-		return null; //TODO
+		return new Int(1);
 	}
 
 	public void print() {
