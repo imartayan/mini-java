@@ -1,5 +1,6 @@
 package mj.syntax;
 
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +28,8 @@ public class Program {
 	}
 
 	public void typeCheck(TypeChecker context) throws TypeError {
+        context.getInheritance(this.declarations);
+
 		for (ClassDeclaration cdec : this.declarations) {
 			context.getClassAttributesTypes(cdec);
 
