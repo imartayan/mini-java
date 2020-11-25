@@ -20,8 +20,7 @@ public class TrueLiteral implements Expression {
 
 	@Override
 	public Type type(TypeChecker context) throws TypeError {
-		// TODO Auto-generated method stub
-		return null;
+		return new BooleanType();
 	}
 
 }
