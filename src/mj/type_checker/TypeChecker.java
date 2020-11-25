@@ -48,6 +48,14 @@ public class TypeChecker {
         this.classVariables.get(classId).forEach((k, v) -> this.localVariables.put(k, v));
     }
 
+    public void removeVariables(Map<Identifier, Type> localVars) {
+        localVars.forEach((k, v) -> this.localVariables.remove(k));
+    }
+
+    public Map<Identifier, Type> getClassVars(Identifier classId) {
+        return this.classVariables.get(classId);
+    }
+
     public static void main(String[] arg) {
         try {
             String filename;
