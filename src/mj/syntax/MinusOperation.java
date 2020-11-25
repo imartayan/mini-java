@@ -6,7 +6,7 @@ import mj.type_checker.TypeError;
 public class MinusOperation implements BinaryOperation {
 
 	public Int eval(Int i1, Int i2) {
-		return null; //TODO
+		return new Int(i1.val - i2.val);
 	}
 
 	public void print() {
