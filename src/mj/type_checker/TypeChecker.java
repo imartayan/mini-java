@@ -3,9 +3,11 @@ package mj.type_checker;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Hashtable;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import mj.Couples;
 import mj.syntax.ClassDeclaration;
 import mj.syntax.Identifier;
 import mj.syntax.MethodDeclaration;
@@ -19,21 +21,31 @@ public class TypeChecker {
     // classe.
 
     protected Map<Identifier, Map<Identifier, Type>> classVariables = new Hashtable<>();
+    protected Map<Identifier, Map<Identifier, Couples<Type, List<Type>>>> classMethods = new Hashtable<>();
     protected Map<Identifier, Type> localVariables = new Hashtable<>();
 
     public void getClassAttributesTypes(ClassDeclaration classDec) {
-        Map<Identifier, Type> varMap = new Hashtable();
-        for(VarDeclaration newVar : classDec.varDeclarations) {
+        Map<Identifier, Type> varMap = new Hashtable<>();
+        Map<Identifier, Couples<Type, List<Type>>> methodsMap = new Hashtable<>();
+
+        for (VarDeclaration newVar : classDec.varDeclarations) {
             varMap.put(newVar.identifier, newVar.type);
         }
-        for(MethodDeclaration newMethod : classDec.methodDeclarations) {
-            varMap.put(newMethod.name, newMethod.resType);
+
+        for (MethodDeclaration newMethod : classDec.methodDeclarations) {
+            List<Type> newParamsType = new LinkedList<>();
+            for (VarDeclaration newParam : newMethod.params) {
+                newParamsType.add(newParam.type);
+            }
+            methodsMap.put(newMethod.name, new Couples<>(newMethod.resType, newParamsType));
         }
+
         this.classVariables.put(classDec.name, varMap);
+        this.classMethods.put(classDec.name, methodsMap);
     }
 
     public void addVariables(Identifier classId) {
-        
+        this.classVariables.get(classId).forEach((k, v) -> this.localVariables.put(k, v));
     }
 
     public static void main(String[] arg) {
