@@ -18,6 +18,11 @@ public class BooleanType implements Type {
     }
     
     @Override
+    public String toString() {
+        return "boolean";
+    }
+
+    @Override
     public Value defaultValue() {
     	return new Int(0);
     };

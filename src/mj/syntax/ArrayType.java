@@ -14,6 +14,11 @@ public class ArrayType implements Type {
         return false;
     }
 
+    @Override
+    public String toString() {
+        return "int[]";
+    }
+
     public Value defaultValue() {
     	return null;
     };

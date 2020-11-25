@@ -15,6 +15,11 @@ public class IntegerType implements Type {
         // TODO
         return false;
     }
+
+    @Override
+    public String toString() {
+        return "int";
+    }
     
     @Override
     public Value defaultValue() {
