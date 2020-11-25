@@ -21,7 +21,16 @@ public class IfStatement implements Statement {
 	}
 
 	public void eval(Interpreter interp, Heap heap, LocalVar vars) throws ExecError {
-		//TODO
+		try {
+			Int cond = (Int) expression.eval(interp, heap, vars);
+			if (cond.val == 0) {
+				statement2.eval(interp, heap, vars);
+			} else {
+				statement1.eval(interp, heap, vars);
+			}
+		} catch (ClassCastException e) {
+			throw new ExecError("IfStatement : cannot convert condition to Int");
+		}
 	}
 
 	public void print(Printer pp) {
