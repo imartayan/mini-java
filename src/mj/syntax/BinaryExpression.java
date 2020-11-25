@@ -33,8 +33,7 @@ public class BinaryExpression implements Expression {
 	}
 
 	public Type type(TypeChecker context) throws TypeError {
-		// TODO Auto-generated method stub
-		return null;
+		return this.operation.typeCheck(operand1.type(context), operand2.type(context));
 	}
 
 }
