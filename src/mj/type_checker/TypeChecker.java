@@ -67,16 +67,24 @@ public class TypeChecker {
         }
     }
 
-    public void addVariables(Identifier classId) {
-        this.classVariables.get(classId).forEach((k, v) -> this.currentVariables.put(k, v));
+    public void addVariable(Identifier varId, Type type) {
+        this.currentVariables.put(varId, type);
     }
 
-    public void removeVariables(Map<Identifier, Type> localVars) {
-        localVars.forEach((k, v) -> this.currentVariables.remove(k));
+    public void addClassVariables(Identifier classId) {
+        this.classVariables.get(classId).forEach(
+            (k, v) -> this.addVariable(k, v)
+        );
     }
 
-    public Map<Identifier, Type> getClassVars(Identifier classId) {
-        return this.classVariables.get(classId);
+    public void removeVariable(Identifier varId) {
+        this.currentVariables.remove(varId);
+    }
+
+    public void removeClassVariables(Identifier classId) {
+        this.classVariables.get(classId).forEach(
+            (k, v) -> this.removeVariable(k)
+        );
     }
 
     public static void main(String[] arg) {

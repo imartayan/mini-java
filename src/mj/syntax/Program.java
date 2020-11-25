@@ -1,8 +1,6 @@
 package mj.syntax;
 
-import java.util.Hashtable;
 import java.util.List;
-import java.util.Map;
 
 import mj.type_checker.TypeChecker;
 import mj.type_checker.TypeError;
@@ -39,10 +37,10 @@ public class Program {
             context.copyParentAttributesTypes(cdec.name);
         }
 
+        this.main.typeCheck(context);
+
 		for (ClassDeclaration cdec : this.declarations) {
-			Map<Identifier, Type> localVars = context.getClassVars(cdec.name);
 			cdec.typeCheck(context);
-			context.removeVariables(localVars);
 		}
 	}
 }

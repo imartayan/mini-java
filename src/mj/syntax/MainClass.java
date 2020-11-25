@@ -20,7 +20,13 @@ public class MainClass {
 	}
 
 	public void typeCheck(TypeChecker context) throws TypeError {
-		// TODO
+		for (VarDeclaration varDec : declarations) {
+            context.addVariable(varDec.identifier, varDec.type);
+        }
+        this.body.typeCheck(context);
+		for (VarDeclaration varDec : declarations) {
+            context.removeVariable(varDec.identifier);
+        }
 	}
 
 	public void print(Printer pp) {
@@ -50,6 +56,5 @@ public class MainClass {
 		pp.indent();
 		System.out.println("}");
 	}
-	
-}
 
+}
