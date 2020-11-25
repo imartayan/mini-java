@@ -44,7 +44,7 @@ public class ArrayAssignmentStatement implements Statement {
 	}
 
 	public void typeCheck(TypeChecker context) throws TypeError {
-		// TODO Auto-generated method stub
+		// TODO
 
 	}
 	
