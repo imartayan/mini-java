@@ -14,8 +14,11 @@ public class MultOperation implements BinaryOperation {
 	}
 
 	public Type typeCheck(Type type1, Type type2) throws TypeError {
-		// TODO Auto-generated method stub
-		return null;
+		if (!(type1 instanceof IntegerType && type2 instanceof IntegerType)) {
+			throw new TypeError("The operator * is undefined for the argument type(s) " + type1.toString() + ", "
+					+ type2.toString());
+		}
+		return type1;
 	}
 
 }
