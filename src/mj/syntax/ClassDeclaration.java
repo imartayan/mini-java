@@ -1,6 +1,7 @@
 package mj.syntax;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import mj.type_checker.TypeError;
@@ -50,15 +51,11 @@ public class ClassDeclaration {
 	}
 
 	public void typeCheck(TypeChecker t) throws TypeError {
-		if(this.superClass.isPresent()) {
-			t.addVariables(this.superClass.get());
-		}
-		for(VarDeclaration newVar : this.varDeclarations) {
-			//TODO : add to local context
-		}
+        t.addClassVariables(this.name);
 		for(MethodDeclaration newMethod : this.methodDeclarations) {
 			newMethod.typeCheck(t);
-		}
+        }
+        t.removeClassVariables(this.name);
 	}
 
 }
