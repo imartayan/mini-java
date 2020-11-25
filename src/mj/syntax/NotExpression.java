@@ -17,7 +17,16 @@ public class NotExpression implements Expression {
 	}
 
 	public Value eval(Interpreter interp, Heap heap, LocalVar vars) throws ExecError {
-		return null; //TODO
+		Value toNegate = expression.eval(interp, heap, vars);
+		try {
+			if (((Int) toNegate).val == 0) {
+				return new Int(1);
+			} else {
+				return new Int(0);
+			}
+		} catch (ClassCastException e) {
+			throw new ExecError("NotExpression.eval() : Unable to cast expression to Boolean");
+		}
 	}
 
 	public void print() {
