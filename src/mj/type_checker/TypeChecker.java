@@ -22,7 +22,7 @@ public class TypeChecker {
 
     protected Map<Identifier, Map<Identifier, Type>> classVariables = new Hashtable<>();
     protected Map<Identifier, Map<Identifier, Couples<Type, List<Type>>>> classMethods = new Hashtable<>();
-    protected Map<Identifier, Type> localVariables = new Hashtable<>();
+    protected Map<Identifier, Type> currentVariables = new Hashtable<>();
 
     public void getClassAttributesTypes(ClassDeclaration classDec) {
         Map<Identifier, Type> varMap = new Hashtable<>();
@@ -45,11 +45,11 @@ public class TypeChecker {
     }
 
     public void addVariables(Identifier classId) {
-        this.classVariables.get(classId).forEach((k, v) -> this.localVariables.put(k, v));
+        this.classVariables.get(classId).forEach((k, v) -> this.currentVariables.put(k, v));
     }
 
     public void removeVariables(Map<Identifier, Type> localVars) {
-        localVars.forEach((k, v) -> this.localVariables.remove(k));
+        localVars.forEach((k, v) -> this.currentVariables.remove(k));
     }
 
     public Map<Identifier, Type> getClassVars(Identifier classId) {
