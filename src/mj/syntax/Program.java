@@ -1,6 +1,7 @@
 package mj.syntax;
 
 import java.util.List;
+import java.util.Map;
 
 import mj.type_checker.TypeChecker;
 import mj.type_checker.TypeError;
@@ -31,7 +32,9 @@ public class Program {
 
 		}
 		for (ClassDeclaration cdec : this.declarations) {
+			Map<Identifier, Type> localVars = context.getClassVars(cdec.name);
 			cdec.typeCheck(context);
+			context.removeVariables(localVars);
 		}
 	}
 }
