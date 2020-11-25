@@ -1,0 +1,24 @@
+package mj.syntax;
+
+import mj.Int;
+import mj.Value;
+import mj.type_checker.TypeChecker;
+
+public class IntegerType implements Type {
+
+	public void print() {
+		System.out.print("int");
+    }
+
+	@Override
+    public boolean isSubtypeOf(Type t, TypeChecker context) {
+        // TODO
+        return false;
+    }
+    
+    @Override
+    public Value defaultValue() {
+    	return new Int(0);
+    };
+}
+
