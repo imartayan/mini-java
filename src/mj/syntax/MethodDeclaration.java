@@ -73,8 +73,8 @@ public class MethodDeclaration {
 		}
 		this.body.typeCheck(context);
 		Type returnType = this.result.type(context);
-		if(returnType != this.resType) {
-			throw new TypeError("Type mismatch : cannot convert from " + this.resType + " to " + returnType);
+		if(!returnType.isSubtypeOf(this.resType, context)) {
+			throw new TypeError("Type mismatch : cannot convert from " + this.resType.toString() + " to " + returnType.toString());
 		}
 	}
 }
