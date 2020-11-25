@@ -26,6 +26,8 @@ public class Program {
 	}
 
    public void typeCheck(TypeChecker context) throws TypeError {
-      // TODO
+		for(ClassDeclaration cdec : this.declarations) {
+			cdec.typeCheck(context);
+		}
    }
 }

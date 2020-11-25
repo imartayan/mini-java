@@ -14,7 +14,7 @@ public class ClassDeclaration {
 	public final Optional<Identifier> superClass;
 	public final List<VarDeclaration> varDeclarations;
 	public final List<MethodDeclaration> methodDeclarations;
-	
+
 	public ClassDeclaration(Identifier name, Optional<Identifier> superClass, List<VarDeclaration> varDeclarations,
 			List<MethodDeclaration> methodDeclarations) {
 		this.name = name;
@@ -29,18 +29,18 @@ public class ClassDeclaration {
 		name.print();
 		if (superClass.isPresent()) {
 			System.out.print(" extends ");
-			superClass.get().print();			
+			superClass.get().print();
 		}
 		System.out.println(" {");
 		pp.incrLevel();
-		for (VarDeclaration vd: varDeclarations) {
+		for (VarDeclaration vd : varDeclarations) {
 			pp.indent();
 			vd.type.print();
 			System.out.print(" ");
 			vd.identifier.print();
-			System.out.println(";");			
+			System.out.println(";");
 		}
-		for (MethodDeclaration md: methodDeclarations) {
+		for (MethodDeclaration md : methodDeclarations) {
 			System.out.println("");
 			md.print(pp);
 		}
@@ -50,8 +50,9 @@ public class ClassDeclaration {
 	}
 
 	public void typeCheck(TypeChecker t) throws TypeError {
-		// TODO
+		if(this.superClass.isPresent()) {
+			this.superClass.get().type(t);
+		}
 	}
 
 }
-
