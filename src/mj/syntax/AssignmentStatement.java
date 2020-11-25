@@ -31,7 +31,11 @@ public class AssignmentStatement implements Statement {
 	}
 
 	public void typeCheck(TypeChecker context) throws TypeError {
-		// TODO Auto-generated method stub
+		Type exprType = this.expression.type(context);
+		Type idType = this.identifier.type(context);
+		if(!exprType.isSubtypeOf(idType, context)) {
+			throw new TypeError("Type mismatch: cannot convert from " + exprType.toString() + " to " + idType.toString());
+		}
 
 	}
 
