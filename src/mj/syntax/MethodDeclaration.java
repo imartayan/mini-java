@@ -52,7 +52,7 @@ public class MethodDeclaration {
 			vd.identifier.print();
 			System.out.println(";");
 		}
-		for (Statement stmt: b.statements) 
+		for (Statement stmt: b.statements)
 			stmt.print(pp);
 		pp.indent();
 		System.out.print("return ");
@@ -64,18 +64,22 @@ public class MethodDeclaration {
 	}
 
 	public void typeCheck(TypeChecker context) throws TypeError {
-		// TODO
 		for(VarDeclaration newParam : this.params) {
-			// add to context
+			context.addVariable(newParam.identifier, newParam.type);
 		}
 		for(VarDeclaration newVar : this.declarations) {
-			// add to context
+			context.addVariable(newVar.identifier, newVar.type);
 		}
 		this.body.typeCheck(context);
 		Type returnType = this.result.type(context);
 		if(!returnType.isSubtypeOf(this.resType, context)) {
 			throw new TypeError("Type mismatch : cannot convert from " + this.resType.toString() + " to " + returnType.toString());
 		}
+        for (VarDeclaration newParam : this.params) {
+            context.removeVariable(newParam.identifier);
+        }
+        for (VarDeclaration newVar : this.declarations) {
+            context.removeVariable(newVar.identifier);
+        }
 	}
 }
-
