@@ -24,6 +24,7 @@ public class TypeChecker {
     protected Map<Identifier, Map<Identifier, Couples<Type, List<Type>>>> classMethods = new Hashtable<>();
     protected Map<Identifier, Identifier> inheritance = new Hashtable<>();
     protected Map<Identifier, Type> currentVariables = new Hashtable<>();
+    protected Map<Identifier, Boolean> initializedVariables = new Hashtable<>();
     protected Identifier currentClass;
 
     public void getClassAttributesTypes(ClassDeclaration classDec) {
@@ -91,6 +92,14 @@ public class TypeChecker {
 
     public void removeClassVariables(ClassDeclaration classDec) {
         this.classVariables.get(classDec.name).forEach((k, v) -> this.removeVariable(k));
+    }
+
+    public void addInitVariable(Identifier varId, boolean initialized) {
+        this.initializedVariables.put(varId, initialized);
+    }
+
+    public void removeInitVariable(Identifier varId) {
+        this.initializedVariables.remove(varId);
     }
 
     public Type lookup(Identifier id) {

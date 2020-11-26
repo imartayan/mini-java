@@ -69,7 +69,8 @@ public class MethodDeclaration {
 		}
 		for(VarDeclaration newVar : this.declarations) {
 			context.addVariable(newVar.identifier, newVar.type);
-		}
+            context.addInitVariable(newVar.identifier, false);
+        }
 		this.body.typeCheck(context);
 		Type returnType = this.result.type(context);
 		if(!returnType.isSubtypeOf(this.resType, context)) {
@@ -80,6 +81,7 @@ public class MethodDeclaration {
         }
         for (VarDeclaration newVar : this.declarations) {
             context.removeVariable(newVar.identifier);
+            context.removeInitVariable(newVar.identifier);
         }
 	}
 }

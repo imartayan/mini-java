@@ -40,9 +40,7 @@ public class AssignmentStatement implements Statement {
 		if(!exprType.isSubtypeOf(idType, context)) {
 			throw new TypeError("Type mismatch: cannot convert from " + exprType.toString() + " to " + idType.toString());
 		}
-
+        context.addInitVariable(this.identifier, true);
 	}
 
-
 }
-

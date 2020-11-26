@@ -3,6 +3,7 @@ package mj.syntax;
 import java.util.List;
 
 import mj.Printer;
+import mj.parser.syntaxtree.VarDeclaration;
 import mj.type_checker.TypeChecker;
 import mj.type_checker.TypeError;
 
@@ -22,10 +23,12 @@ public class MainClass {
 	public void typeCheck(TypeChecker context) throws TypeError {
 		for (VarDeclaration varDec : declarations) {
             context.addVariable(varDec.identifier, varDec.type);
+            context.addInitVariable(varDec.identifier, false);
         }
         this.body.typeCheck(context);
 		for (VarDeclaration varDec : declarations) {
             context.removeVariable(varDec.identifier);
+            context.removeInitVariable(varDec.identifier);
         }
 	}
 
