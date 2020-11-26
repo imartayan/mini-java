@@ -3,9 +3,9 @@ package mj;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Collections;
-import java.util.Hashtable;
 import java.util.List;
-import java.util.Map;
+// import java.util.Hashtable;
+// import java.util.Map;
 
 import mj.syntax.*;
 
@@ -31,7 +31,7 @@ public class SimpleHeap implements Heap {
 
 		public ArrayRef(Int size) {
 			this.ref = new int[size.val];
-		}		
+		}
 	}
 
 	public Int arrayLength(Value v) {
@@ -96,4 +96,3 @@ public class SimpleHeap implements Heap {
 	}
 
 }
-

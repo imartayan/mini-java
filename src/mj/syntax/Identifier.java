@@ -5,7 +5,7 @@ import mj.Heap;
 import mj.Interpreter;
 import mj.LocalVar;
 import mj.Value;
-import mj.Int;
+// import mj.Int;
 import mj.type_checker.TypeChecker;
 import mj.type_checker.TypeError;
 

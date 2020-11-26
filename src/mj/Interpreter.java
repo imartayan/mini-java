@@ -1,7 +1,7 @@
 package mj;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+// import java.io.FileInputStream;
+// import java.io.FileNotFoundException;
 import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
@@ -34,5 +34,5 @@ public class Interpreter {
 		LocalVar vars = new LocalVar(program.main.declarations);
 		program.main.body.eval(this, heap, vars);
 	}
-	
+
 }

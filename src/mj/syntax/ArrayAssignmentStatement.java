@@ -9,7 +9,7 @@ import mj.Printer;
 import mj.Value;
 import mj.type_checker.TypeChecker;
 import mj.type_checker.TypeError;
-import sun.java2d.pipe.hw.ContextCapabilities;
+// import sun.java2d.pipe.hw.ContextCapabilities;
 
 public class ArrayAssignmentStatement implements Statement {
 	public final Identifier identifier;

@@ -1,6 +1,6 @@
 package mj.syntax;
 
-import java.util.Optional;
+// import java.util.Optional;
 
 import mj.Int;
 import mj.Value;
@@ -15,7 +15,7 @@ public class BooleanType implements Type {
     public boolean isSubtypeOf(Type t, TypeChecker context) {
         return t instanceof BooleanType;
     }
-    
+
     @Override
     public String toString() {
         return "boolean";
@@ -27,4 +27,3 @@ public class BooleanType implements Type {
     };
 
 }
-

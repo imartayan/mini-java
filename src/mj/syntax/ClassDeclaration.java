@@ -1,7 +1,6 @@
 package mj.syntax;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import mj.type_checker.TypeError;
