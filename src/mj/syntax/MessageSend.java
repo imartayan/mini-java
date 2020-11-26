@@ -35,6 +35,8 @@ public class MessageSend implements Expression {
 		}
 		Map<Identifier, Value> exObjects = Collections.emptyMap();
 		exObjects.putAll(interp.objects);
+		Map<Identifier, Value> exArrays = Collections.emptyMap();
+		exObjects.putAll(interp.arrays);
 		//Getting method
 		MethodDeclaration method=(interp.methods.get(interp.currentObject).get(name));
 		//Add arguments as local variables
@@ -57,6 +59,7 @@ public class MessageSend implements Expression {
 		//Resetting initial paramaters (vars is not changed due to our use of WorkVars)
 		interp.currentObject = exCurrentObject;
 		interp.objects = exObjects;
+		interp.arrays = exArrays;
 		return res;
 	}
 

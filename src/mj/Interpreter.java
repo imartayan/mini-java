@@ -16,6 +16,7 @@ public class Interpreter {
 	public final Program program;
 	public final List<LocalVar> callstack = new LinkedList<>(); // utile pour AdvancedHeap
 	public Map<Identifier, Value> objects = new Hashtable<>();
+	public Map<Identifier, Value> arrays = new Hashtable<>();
 	public Identifier currentObject = new Identifier("main");
 
 	public Interpreter(Program program) {
