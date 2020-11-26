@@ -87,6 +87,24 @@ public class TypeChecker {
         );
     }
 
+    public Type lookup(Identifier id) {
+        Type res = null;
+        if(this.currentVariables.containsKey(id)) {
+            res = this.currentVariables.get(id);
+        } else if(this.classVariables.containsKey(id)) {
+            res = id;
+        }
+        return res;
+    }
+
+    public boolean inheritsFrom(Identifier child, Type superType)  {
+        Identifier cursor = child;
+        while(this.lookup(cursor) != superType && this.inheritance.containsKey(cursor)) {
+            cursor = this.inheritance.get(cursor);
+        }
+        return this.lookup(cursor) == superType;
+    }
+
     public static void main(String[] arg) {
         try {
             String filename;

@@ -25,7 +25,7 @@ public class Identifier implements Type, Expression {
 	}
 
 	public Value eval(Interpreter interp, Heap heap, LocalVar vars) {
-		return null; //TODO
+		return null; // TODO
 	}
 
 	public void print() {
@@ -52,18 +52,20 @@ public class Identifier implements Type, Expression {
 	}
 
 	public boolean isSubtypeOf(Type t, TypeChecker context) {
-		// TODO
-		return false;
+		Type thisType = context.lookup(this);
+		if (thisType == this) {
+			return context.inheritsFrom(this, t);
+		}
+		return thisType.isSubtypeOf(t, context);
+
 	}
 
 	public Type type(TypeChecker context) throws TypeError {
-		// TODO Auto-generated method stub
-		return null;
+		return context.lookup(this);
 	}
 
 	@Override
-    public Value defaultValue() {
+	public Value defaultValue() {
 		return null;
 	}
 }
-
