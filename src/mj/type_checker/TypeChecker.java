@@ -23,7 +23,7 @@ public class TypeChecker {
     protected Map<Identifier, Map<Identifier, Type>> classVariables = new Hashtable<>();
     protected Map<Identifier, Map<Identifier, Couples<Type, List<Type>>>> classMethods = new Hashtable<>();
     protected Map<Identifier, Type> currentVariables = new Hashtable<>();
-
+    protected Identifier currentClass;
     protected Map<Identifier, Identifier> inheritance = new Hashtable<>();
 
     public void getClassAttributesTypes(ClassDeclaration classDec) {
@@ -65,20 +65,28 @@ public class TypeChecker {
         }
     }
 
+    public void setCurrentClass(ClassDeclaration classDec) {
+        this.currentClass = classDec.name;
+    }
+
+    public Identifier getCurrentClass() {
+        return this.currentClass;
+    }
+
     public void addVariable(Identifier varId, Type type) {
         this.currentVariables.put(varId, type);
     }
 
-    public void addClassVariables(Identifier classId) {
-        this.classVariables.get(classId).forEach((k, v) -> this.addVariable(k, v));
+    public void addClassVariables(ClassDeclaration classDec) {
+        this.classVariables.get(classDec.name).forEach((k, v) -> this.addVariable(k, v));
     }
 
     public void removeVariable(Identifier varId) {
         this.currentVariables.remove(varId);
     }
 
-    public void removeClassVariables(Identifier classId) {
-        this.classVariables.get(classId).forEach((k, v) -> this.removeVariable(k));
+    public void removeClassVariables(ClassDeclaration classDec) {
+        this.classVariables.get(classDec.name).forEach((k, v) -> this.removeVariable(k));
     }
 
     public Type lookup(Identifier id) {

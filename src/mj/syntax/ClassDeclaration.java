@@ -51,11 +51,12 @@ public class ClassDeclaration {
 	}
 
 	public void typeCheck(TypeChecker t) throws TypeError {
-        t.addClassVariables(this.name);
-		for(MethodDeclaration newMethod : this.methodDeclarations) {
+		t.setCurrentClass(this);
+		t.addClassVariables(this);
+		for (MethodDeclaration newMethod : this.methodDeclarations) {
 			newMethod.typeCheck(t);
-        }
-        t.removeClassVariables(this.name);
+		}
+		t.removeClassVariables(this);
 	}
 
 }

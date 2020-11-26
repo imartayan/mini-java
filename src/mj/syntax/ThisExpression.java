@@ -10,7 +10,7 @@ import mj.type_checker.TypeError;
 public class ThisExpression implements Expression {
 
 	public Value eval(Interpreter interp, Heap heap, LocalVar vars) {
-		return null; //TODO
+		return null; // TODO
 	}
 
 	public void print() {
@@ -19,11 +19,7 @@ public class ThisExpression implements Expression {
 
 	@Override
 	public Type type(TypeChecker context) throws TypeError {
-		// TODO Auto-generated method stub
-		return null;
+		return context.lookup(context.getCurrentClass());
 	}
 
-
-
 }
-
