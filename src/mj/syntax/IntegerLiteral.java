@@ -20,7 +20,12 @@ public class IntegerLiteral implements Expression {
 	}
 
 	public void print() {
-		System.out.print(value);
+		System.out.print(this.toString());
+	}
+
+	@Override
+	public String toString() {
+		return this.value.toString();
 	}
 
 	public Type type(TypeChecker context) throws TypeError {
@@ -28,4 +33,3 @@ public class IntegerLiteral implements Expression {
 	}
 
 }
-

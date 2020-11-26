@@ -21,8 +21,12 @@ public class ArrayLength implements Expression {
 	}
 
 	public void print() {
-		argument.print();
-		System.out.print(".length");
+		System.out.print(this.toString());
+	}
+
+	@Override
+	public String toString() {
+		return argument.toString() + ".length";
 	}
 
 	@Override

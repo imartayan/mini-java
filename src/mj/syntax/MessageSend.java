@@ -29,41 +29,44 @@ public class MessageSend implements Expression {
 	}
 
 	public void print() {
-		receiver.print();
-		System.out.print(".");
-		name.print();
-		System.out.print("(");
-		int i = 0;
+		System.out.print(this.toString());
+	}
+
+	@Override
+	public String toString() {
+		String argsString = "";
+		boolean start = true;
 		for (Expression e : arguments)
-			if (i++ == 0)
-				e.print();
-			else {
-				System.out.print(",");
-				e.print();
+			if (start) {
+				argsString += e.toString();
+				start = false;
+			} else {
+				argsString += ", " + e.toString();
 			}
-		System.out.print(")");
+		return this.receiver.toString() + "." + this.name.toString() + "(" + argsString + ")";
 	}
 
 	public Type type(TypeChecker context) throws TypeError {
 		try {
 			Identifier exprId = (Identifier) this.receiver.type(context);
-			if(!context.isClass(exprId)) {
+			if (!context.isClass(exprId)) {
 				throw new ClassCastException();
 			}
 			Couples<Type, List<Type>> expectedType = context.lookupMethod(exprId, this.name);
-			if(expectedType == null) {
+			if (expectedType == null) {
 				throw new TypeError("Method " + this.name.toString() + " undefined for class " + exprId.toString());
 			}
-			if(this.arguments.size() != expectedType.second.size()) {
+			if (this.arguments.size() != expectedType.second.size()) {
 				throw new TypeError("Unexpected number of arguments");
 			}
 			Iterator<Expression> argsIterator = this.arguments.iterator();
 			Iterator<Type> expectedIterator = expectedType.second.iterator();
-			while(argsIterator.hasNext() && expectedIterator.hasNext()) {
+			while (argsIterator.hasNext() && expectedIterator.hasNext()) {
 				Type argsNext = argsIterator.next().type(context);
 				Type expectedNext = expectedIterator.next();
-				if(argsNext != expectedNext) {
-					throw new TypeError("Argument type does not match: expected " + expectedNext.toString() + " but was " + argsNext.toString());
+				if (argsNext != expectedNext) {
+					throw new TypeError("Argument type does not match: expected " + expectedNext.toString()
+							+ " but was " + argsNext.toString());
 				}
 			}
 			return expectedType.first;

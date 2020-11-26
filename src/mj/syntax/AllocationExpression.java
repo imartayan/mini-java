@@ -20,8 +20,12 @@ public class AllocationExpression implements Expression {
    }
 
    public void print() {
-      // TODO Auto-generated method stub
+      System.out.print(this.toString());
+   }
 
+   @Override
+   public String toString() {
+      return "new " + this.identifier.toString() + "()";
    }
 
    public Type type(TypeChecker context) throws TypeError {

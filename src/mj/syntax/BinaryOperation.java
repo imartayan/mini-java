@@ -9,6 +9,8 @@ public interface BinaryOperation {
 	
 	public void print();
 
+	public String toString();
+
 	public Type typeCheck(Type type1, Type type2) throws TypeError;
 
 }

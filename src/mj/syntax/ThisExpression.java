@@ -14,7 +14,12 @@ public class ThisExpression implements Expression {
 	}
 
 	public void print() {
-		System.out.print("this");
+		System.out.print(this.toString());
+	}
+
+	@Override
+	public String toString() {
+		return "this";
 	}
 
 	@Override

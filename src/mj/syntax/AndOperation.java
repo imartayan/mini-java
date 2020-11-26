@@ -14,7 +14,12 @@ public class AndOperation implements BinaryOperation {
 	}
 
 	public void print() {
-		System.out.print("&&");
+		System.out.print(this.toString());
+	}
+
+	@Override
+	public String toString() {
+		return "&&";
 	}
 
 	@Override

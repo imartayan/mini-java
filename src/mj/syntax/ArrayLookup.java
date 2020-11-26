@@ -29,10 +29,12 @@ public class ArrayLookup implements Expression {
 	}
 
 	public void print() {
-		expression1.print();
-		System.out.print("[");
-		expression2.print();
-		System.out.print("]");
+		System.out.print(this.toString());
+	}
+
+	@Override
+	public String toString() {
+		return this.expression1.toString() + "[" + this.expression2.toString() + "]";
 	}
 
 	@Override
