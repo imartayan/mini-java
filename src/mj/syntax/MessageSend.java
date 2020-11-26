@@ -1,6 +1,8 @@
 package mj.syntax;
 
 import java.util.List;
+import java.util.Iterator;
+import mj.Couples;
 
 import mj.ExecError;
 import mj.Heap;
@@ -32,8 +34,9 @@ public class MessageSend implements Expression {
 		name.print();
 		System.out.print("(");
 		int i = 0;
-		for (Expression e: arguments) 
-			if (i++==0) e.print();
+		for (Expression e : arguments)
+			if (i++ == 0)
+				e.print();
 			else {
 				System.out.print(",");
 				e.print();
@@ -42,9 +45,31 @@ public class MessageSend implements Expression {
 	}
 
 	public Type type(TypeChecker context) throws TypeError {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			Identifier exprId = (Identifier) this.receiver.type(context);
+			if(!context.isClass(exprId)) {
+				throw new ClassCastException();
+			}
+			Couples<Type, List<Type>> expectedType = context.lookupMethod(exprId, this.name);
+			if(expectedType == null) {
+				throw new TypeError("Method " + this.name.toString() + " undefined for class " + exprId.toString());
+			}
+			if(this.arguments.size() != expectedType.second.size()) {
+				throw new TypeError("Unexpected number of arguments");
+			}
+			Iterator<Expression> argsIterator = this.arguments.iterator();
+			Iterator<Type> expectedIterator = expectedType.second.iterator();
+			while(argsIterator.hasNext() && expectedIterator.hasNext()) {
+				Type argsNext = argsIterator.next().type(context);
+				Type expectedNext = expectedIterator.next();
+				if(argsNext != expectedNext) {
+					throw new TypeError("Argument type does not match: expected " + expectedNext.toString() + " but was " + argsNext.toString());
+				}
+			}
+			return expectedType.first;
+		} catch (ClassCastException e) {
+			throw new TypeError(receiver.toString() + " cannot be evaluated to an existing class");
+		}
 	}
 
 }
-

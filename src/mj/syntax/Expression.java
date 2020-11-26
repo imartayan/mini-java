@@ -14,6 +14,8 @@ public interface Expression {
 
 	public void print();
 
+	public String toString();
+
 	public Type type(TypeChecker context) throws TypeError;
 
 }

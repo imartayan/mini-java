@@ -59,9 +59,7 @@ public class TypeChecker {
             Identifier parentId = this.inheritance.get(classId);
             copyParentAttributesTypes(parentId);
             // copy variables from parent
-            this.classVariables.get(parentId).forEach(
-                (k, v) -> this.classVariables.get(classId).put(k, v)
-            );
+            this.classVariables.get(parentId).forEach((k, v) -> this.classVariables.get(classId).put(k, v));
             // copy methods from parent
             this.classMethods.get(parentId).forEach((k, v) -> this.classMethods.get(classId).put(k, v));
         }
@@ -72,9 +70,7 @@ public class TypeChecker {
     }
 
     public void addClassVariables(Identifier classId) {
-        this.classVariables.get(classId).forEach(
-            (k, v) -> this.addVariable(k, v)
-        );
+        this.classVariables.get(classId).forEach((k, v) -> this.addVariable(k, v));
     }
 
     public void removeVariable(Identifier varId) {
@@ -82,24 +78,30 @@ public class TypeChecker {
     }
 
     public void removeClassVariables(Identifier classId) {
-        this.classVariables.get(classId).forEach(
-            (k, v) -> this.removeVariable(k)
-        );
+        this.classVariables.get(classId).forEach((k, v) -> this.removeVariable(k));
     }
 
     public Type lookup(Identifier id) {
         Type res = null;
-        if(this.currentVariables.containsKey(id)) {
+        if (this.currentVariables.containsKey(id)) {
             res = this.currentVariables.get(id);
-        } else if(this.classVariables.containsKey(id)) {
+        } else if (this.classVariables.containsKey(id)) {
             res = id;
         }
         return res;
     }
 
-    public boolean inheritsFrom(Identifier child, Type superType)  {
+    public Couples<Type, List<Type>> lookupMethod(Identifier classId, Identifier methodId) {
+        return this.classMethods.get(classId).get(methodId);
+    }
+
+    public boolean isClass(Identifier id) {
+        return this.classVariables.containsKey(id);
+    }
+
+    public boolean inheritsFrom(Identifier child, Type superType) {
         Identifier cursor = child;
-        while(this.lookup(cursor) != superType && this.inheritance.containsKey(cursor)) {
+        while (this.lookup(cursor) != superType && this.inheritance.containsKey(cursor)) {
             cursor = this.inheritance.get(cursor);
         }
         return this.lookup(cursor) == superType;

@@ -16,7 +16,7 @@ public class AllocationExpression implements Expression {
    }
 
    public Value eval(Interpreter interp, Heap heap, LocalVar vars) throws ExecError {
-      return null; //TODO
+      return null; // TODO
    }
 
    public void print() {
@@ -25,8 +25,10 @@ public class AllocationExpression implements Expression {
    }
 
    public Type type(TypeChecker context) throws TypeError {
-      // TODO Auto-generated method stub
-      return null;
+      Type res = context.lookup(identifier);
+      if (res == null || !context.isClass(identifier)) {
+         throw new TypeError("Unbound class constructor " + identifier.name + "()");
+      }
+      return res;
    }
 }
-
