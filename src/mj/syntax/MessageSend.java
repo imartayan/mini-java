@@ -24,7 +24,7 @@ public class MessageSend implements Expression {
 	}
 
 	public Value eval(Interpreter interp, Heap heap, LocalVar vars) throws ExecError {
-		// TODO
+		interp.currentObject = receiver.eval(interp, heap, vars); 
 		return null;
 	}
 

@@ -10,7 +10,7 @@ import mj.type_checker.TypeError;
 public class ThisExpression implements Expression {
 
 	public Value eval(Interpreter interp, Heap heap, LocalVar vars) {
-		return interp.CurrentObject;
+		return interp.currentObject;
 	}
 
 	public void print() {

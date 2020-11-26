@@ -16,7 +16,9 @@ public class AllocationExpression implements Expression {
    }
 
    public Value eval(Interpreter interp, Heap heap, LocalVar vars) throws ExecError {
-		return heap.allocObject(this.identifier);
+      Value value = heap.allocObject(this.identifier);
+      interp.objects.put(this.identifier,value);
+      return value;
    }
 
    public void print() {
