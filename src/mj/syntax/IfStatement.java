@@ -49,7 +49,8 @@ public class IfStatement implements Statement {
 	}
 
 	public void typeCheck(TypeChecker context) throws TypeError {
-		Type condType = this.expression.type(context);
+        this.expression.checkInitialization(context);
+        Type condType = this.expression.type(context);
 		if(!condType.isSubtypeOf(new BooleanType(), context)) {
 			throw new TypeError("Type mismatch: cannot convert from " + condType.toString() + " to boolean");
 		}
@@ -58,4 +59,3 @@ public class IfStatement implements Statement {
 	}
 
 }
-
