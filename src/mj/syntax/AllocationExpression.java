@@ -16,7 +16,7 @@ public class AllocationExpression implements Expression {
    }
 
    public Value eval(Interpreter interp, Heap heap, LocalVar vars) throws ExecError {
-      return null; // TODO
+		return heap.allocObject(this.identifier);
    }
 
    public void print() {

@@ -22,9 +22,9 @@ public class TypeChecker {
 
     protected Map<Identifier, Map<Identifier, Type>> classVariables = new Hashtable<>();
     protected Map<Identifier, Map<Identifier, Couples<Type, List<Type>>>> classMethods = new Hashtable<>();
+    protected Map<Identifier, Identifier> inheritance = new Hashtable<>();
     protected Map<Identifier, Type> currentVariables = new Hashtable<>();
     protected Identifier currentClass;
-    protected Map<Identifier, Identifier> inheritance = new Hashtable<>();
 
     public void getClassAttributesTypes(ClassDeclaration classDec) {
         Map<Identifier, Type> varMap = new Hashtable<>();
@@ -73,6 +73,10 @@ public class TypeChecker {
         return this.currentClass;
     }
 
+    public boolean isClass(Identifier id) {
+        return this.classVariables.containsKey(id);
+    }
+
     public void addVariable(Identifier varId, Type type) {
         this.currentVariables.put(varId, type);
     }
@@ -103,16 +107,12 @@ public class TypeChecker {
         return this.classMethods.get(classId).get(methodId);
     }
 
-    public boolean isClass(Identifier id) {
-        return this.classVariables.containsKey(id);
-    }
-
-    public boolean inheritsFrom(Identifier child, Type superType) {
-        Identifier cursor = child;
-        while (this.lookup(cursor) != superType && this.inheritance.containsKey(cursor)) {
-            cursor = this.inheritance.get(cursor);
+    public boolean inheritsFrom(Identifier classId, Type superType) {
+        Identifier parentId = classId;
+        while (this.lookup(parentId) != superType && this.inheritance.containsKey(parentId)) {
+            parentId = this.inheritance.get(parentId);
         }
-        return this.lookup(cursor) == superType;
+        return this.lookup(parentId) == superType;
     }
 
     public static void main(String[] arg) {
