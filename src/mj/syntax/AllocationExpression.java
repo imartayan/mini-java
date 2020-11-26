@@ -20,13 +20,19 @@ public class AllocationExpression implements Expression {
    }
 
    public void print() {
-      // TODO Auto-generated method stub
+      System.out.print(this.toString());
+   }
 
+   @Override
+   public String toString() {
+      return "new " + this.identifier.toString() + "()";
    }
 
    public Type type(TypeChecker context) throws TypeError {
-      // TODO Auto-generated method stub
-      return null;
+      Type res = context.lookup(identifier);
+      if (res == null || !context.isClass(identifier)) {
+         throw new TypeError("Unbound class constructor " + identifier.name + "()");
+      }
+      return res;
    }
 }
-

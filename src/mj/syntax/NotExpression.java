@@ -30,8 +30,12 @@ public class NotExpression implements Expression {
 	}
 
 	public void print() {
-		System.out.print("!");
-		expression.print();
+		System.out.print(this.toString());
+	}
+
+	@Override
+	public String toString() {
+		return "!" + this.expression.toString();
 	}
 
 	public Type type(TypeChecker context) throws TypeError {

@@ -25,9 +25,11 @@ public class ArrayAllocationExpression implements Expression {
 	}
 
 	public void print() {
-		System.out.print("new int[");
-		size.print();
-		System.out.print("]");
+		System.out.print(this.toString());
+	}
+
+	public String toString() {
+		return "new int[" + size.toString() + "]";
 	}
 
 	public Type type(TypeChecker context) throws TypeError {

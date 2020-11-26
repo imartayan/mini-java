@@ -10,7 +10,12 @@ public class PlusOperation implements BinaryOperation {
 	}
 
 	public void print() {
-		System.out.print("+");
+		System.out.print(this.toString());
+	}
+
+	@Override
+	public String toString() {
+		return "+";
 	}
 
 	public Type typeCheck(Type type1, Type type2) throws TypeError {

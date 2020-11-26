@@ -25,11 +25,12 @@ public class BinaryExpression implements Expression {
 	}
 
 	public void print() {
-		System.out.print("(");
-		operand1.print();
-		operation.print();
-		operand2.print();
-		System.out.print(")");
+		System.out.print(this.toString());
+	}
+
+	@Override
+	public String toString() {
+		return "(" + this.operand1.toString() + this.operation.toString() + this.operand2.toString() + ")";
 	}
 
 	public Type type(TypeChecker context) throws TypeError {

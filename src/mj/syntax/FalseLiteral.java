@@ -15,7 +15,12 @@ public class FalseLiteral implements Expression {
 	}
 
 	public void print() {
-		System.out.print("false");
+		System.out.print(this.toString());
+	}
+
+	@Override
+	public String toString() {
+		return "false";
 	}
 
 	public Type type(TypeChecker context) throws TypeError {

@@ -14,16 +14,17 @@ public class ThisExpression implements Expression {
 	}
 
 	public void print() {
-		System.out.print("this");
+		System.out.print(this.toString());
+	}
+
+	@Override
+	public String toString() {
+		return "this";
 	}
 
 	@Override
 	public Type type(TypeChecker context) throws TypeError {
-		// TODO Auto-generated method stub
-		return null;
+		return context.lookup(context.getCurrentClass());
 	}
 
-
-
 }
-
