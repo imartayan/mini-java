@@ -9,6 +9,7 @@ import mj.Printer;
 import mj.Value;
 import mj.type_checker.TypeChecker;
 import mj.type_checker.TypeError;
+import sun.java2d.pipe.hw.ContextCapabilities;
 
 public class ArrayAssignmentStatement implements Statement {
 	public final Identifier identifier;
@@ -44,6 +45,8 @@ public class ArrayAssignmentStatement implements Statement {
 	}
 
 	public void typeCheck(TypeChecker context) throws TypeError {
+        this.expression1.checkInitialization(context);
+        this.expression2.checkInitialization(context);
         Type expr1Type = this.expression1.type(context);
         Type expr2Type = this.expression2.type(context);
 		if(!expr1Type.isSubtypeOf(new IntegerType(), context)) {

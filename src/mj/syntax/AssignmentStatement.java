@@ -35,6 +35,7 @@ public class AssignmentStatement implements Statement {
 	}
 
 	public void typeCheck(TypeChecker context) throws TypeError {
+        this.expression.checkInitialization(context);
 		Type exprType = this.expression.type(context);
 		Type idType = this.identifier.type(context);
 		if(!exprType.isSubtypeOf(idType, context)) {

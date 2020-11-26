@@ -18,5 +18,6 @@ public interface Expression {
 
 	public Type type(TypeChecker context) throws TypeError;
 
-}
+    public void checkInitialization(TypeChecker context) throws TypeError;
 
+}

@@ -35,13 +35,13 @@ public class WhileStatement implements Statement {
 	}
 
 	@Override
-	public void typeCheck(TypeChecker t) throws TypeError {
-		Type condType = this.expression.type(t);
-		if(!condType.isSubtypeOf(new BooleanType(), t)) {
+	public void typeCheck(TypeChecker context) throws TypeError {
+        this.expression.checkInitialization(context);
+        Type condType = this.expression.type(context);
+		if(!condType.isSubtypeOf(new BooleanType(), context)) {
 			throw new TypeError("Type mismatch: cannot convert from " + condType.toString() + " to boolean");
 		}
 		this.statement.typeCheck(t);
 	}
 
 }
-
