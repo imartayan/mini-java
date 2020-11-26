@@ -1,9 +1,11 @@
 package mj.syntax;
 
+import mj.ExecError;
 import mj.Heap;
 import mj.Interpreter;
 import mj.LocalVar;
 import mj.Value;
+import mj.Int;
 import mj.type_checker.TypeChecker;
 import mj.type_checker.TypeError;
 
@@ -24,8 +26,16 @@ public class Identifier implements Type, Expression {
 		this.col = col;
 	}
 
-	public Value eval(Interpreter interp, Heap heap, LocalVar vars) {
-		return null; // TODO
+	public Value eval(Interpreter interp, Heap heap, LocalVar vars) throws ExecError {
+		if (interp.arrays.containsKey(this)) {
+			return interp.arrays.get(this);
+		} else if (interp.objects.containsKey(this)) {
+			return interp.objects.get(this);
+		} else if (vars.values.containsKey(this)) {
+			return vars.values.get(this);
+		} else {
+			throw new ExecError("Identifier evaluation : undefined variable, array or object");
+		}
 	}
 
 	public void print() {
