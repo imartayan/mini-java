@@ -16,7 +16,8 @@ class CheckProgramA{
 class CheckProgramB extends CheckProgramA {
     int b;
     public boolean initB() {
-        boolean res = initA();
+        boolean res;
+        res = this.initA();
         b = a + 1;
         return res;
     }
@@ -27,7 +28,8 @@ class CheckProgramB extends CheckProgramA {
 class CheckProgramC extends CheckProgramB {
     int c;
     public boolean initC() {
-        boolean res = initA();
+        boolean res;
+        res = this.initA();
         c = a + 2;
         return res;
     }
