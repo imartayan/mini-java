@@ -46,4 +46,8 @@ public class NotExpression implements Expression {
 		return condType;
 	}
 
+    public void checkInitialization(TypeChecker context) throws TypeError {
+        this.expression.checkInitialization(context);
+    }
+
 }

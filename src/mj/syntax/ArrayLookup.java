@@ -49,5 +49,11 @@ public class ArrayLookup implements Expression {
 			throw new TypeError("Type mismatch: cannot convert from " + expr2Type.toString() + " to integer");
 		}
 		return new IntegerType();
-	}
+    }
+
+    public void checkInitialization(TypeChecker context) throws TypeError {
+        this.expression1.checkInitialization(context);
+        this.expression2.checkInitialization(context);
+    }
+
 }

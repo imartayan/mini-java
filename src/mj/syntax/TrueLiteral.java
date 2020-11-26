@@ -23,5 +23,6 @@ public class TrueLiteral implements Expression {
 		return new BooleanType();
 	}
 
-}
+    public void checkInitialization(TypeChecker context) throws TypeError {}
 
+}

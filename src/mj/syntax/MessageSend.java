@@ -71,13 +71,14 @@ public class MessageSend implements Expression {
 	public String toString() {
 		String argsString = "";
 		boolean start = true;
-		for (Expression e : arguments)
-			if (start) {
-				argsString += e.toString();
+		for (Expression e : arguments) {
+            if (start) {
+                argsString += e.toString();
 				start = false;
 			} else {
-				argsString += ", " + e.toString();
+                argsString += ", " + e.toString();
 			}
+        }
 		return this.receiver.toString() + "." + this.name.toString() + "(" + argsString + ")";
 	}
 
@@ -109,5 +110,11 @@ public class MessageSend implements Expression {
 			throw new TypeError(receiver.toString() + " cannot be evaluated to an existing class");
 		}
 	}
+
+    public void checkInitialization(TypeChecker context) throws TypeError {
+        for (Expression e : arguments) {
+            e.checkInitialization(context);
+        }
+    }
 
 }

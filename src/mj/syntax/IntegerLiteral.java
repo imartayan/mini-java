@@ -32,4 +32,6 @@ public class IntegerLiteral implements Expression {
 		return new IntegerType();
 	}
 
+    public void checkInitialization(TypeChecker context) throws TypeError {}
+
 }

@@ -9,7 +9,7 @@ import mj.type_checker.TypeError;
 
 public class ThisExpression implements Expression {
 
-	public Value eval(Interpreter interp, Heap heap, LocalVar vars) { 
+	public Value eval(Interpreter interp, Heap heap, LocalVar vars) {
 		return interp.currentObject.eval(interp, heap, vars);
 	}
 
@@ -26,5 +26,7 @@ public class ThisExpression implements Expression {
 	public Type type(TypeChecker context) throws TypeError {
 		return context.lookup(context.getCurrentClass());
 	}
+
+    public void checkInitialization(TypeChecker context) throws TypeError {}
 
 }

@@ -37,4 +37,9 @@ public class BinaryExpression implements Expression {
 		return this.operation.typeCheck(operand1.type(context), operand2.type(context));
 	}
 
+    public void checkInitialization(TypeChecker context) throws TypeError {
+        this.operand1.checkInitialization(context);
+        this.operand2.checkInitialization(context);
+    }
+
 }

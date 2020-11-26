@@ -102,6 +102,14 @@ public class TypeChecker {
         this.initializedVariables.remove(varId);
     }
 
+    public boolean isLocal(Identifier varId) {
+        return this.initializedVariables.containsKey(varId);
+    }
+
+    public boolean isInitialized(Identifier varId) {
+        return this.initializedVariables.get(varId);
+    }
+
     public Type lookup(Identifier id) {
         Type res = null;
         if (this.currentVariables.containsKey(id)) {

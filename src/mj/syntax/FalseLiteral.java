@@ -26,4 +26,7 @@ public class FalseLiteral implements Expression {
 	public Type type(TypeChecker context) throws TypeError {
 		return new BooleanType();
 	}
+
+    public void checkInitialization(TypeChecker context) throws TypeError {}
+
 }

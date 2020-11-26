@@ -40,5 +40,8 @@ public class ArrayAllocationExpression implements Expression {
 		return sizeType;
 	}
 
-}
+    public void checkInitialization(TypeChecker context) throws TypeError {
+        this.size.checkInitialization(context);
+    }
 
+}

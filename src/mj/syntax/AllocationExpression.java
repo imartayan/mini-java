@@ -37,4 +37,6 @@ public class AllocationExpression implements Expression {
       }
       return res;
    }
+
+   public void checkInitialization(TypeChecker context) throws TypeError {}
 }

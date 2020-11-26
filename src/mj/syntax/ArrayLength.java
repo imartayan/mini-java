@@ -38,4 +38,8 @@ public class ArrayLength implements Expression {
 		return new IntegerType();
 	}
 
+    public void checkInitialization(TypeChecker context) throws TypeError {
+        this.argument.checkInitialization(context);
+    }
+
 }

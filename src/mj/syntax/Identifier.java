@@ -64,6 +64,12 @@ public class Identifier implements Type, Expression {
 		return context.lookup(this);
 	}
 
+    public void checkInitialization(TypeChecker context) throws TypeError {
+        if (context.isLocal(this) && !context.isInitialized(this)) {
+            throw new TypeError("Variable " + this.toString() + " is not initialized");
+        }
+    }
+
 	@Override
 	public Value defaultValue() {
 		return null;
