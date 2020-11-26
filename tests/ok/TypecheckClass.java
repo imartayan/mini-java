@@ -16,7 +16,8 @@ class CheckClassA{
 class CheckClassB extends CheckClassA {
     int b;
     public boolean initB() {
-        boolean res = initA();
+        boolean res;
+        res = this.initA();
         b = a + 1;
         return res;
     }
@@ -26,7 +27,8 @@ class CheckClassB extends CheckClassA {
 class CheckClassC extends CheckClassA {
     boolean b;
     public boolean initC() {
-        boolean res = initA();
+        boolean res;
+        res = this.initA();
         b = false;
         return res;
     }
