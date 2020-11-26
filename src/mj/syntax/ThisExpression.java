@@ -1,5 +1,6 @@
 package mj.syntax;
 
+import mj.ExecError;
 import mj.Heap;
 import mj.Interpreter;
 import mj.LocalVar;
@@ -9,7 +10,7 @@ import mj.type_checker.TypeError;
 
 public class ThisExpression implements Expression {
 
-	public Value eval(Interpreter interp, Heap heap, LocalVar vars) {
+	public Value eval(Interpreter interp, Heap heap, LocalVar vars) throws ExecError {
 		return interp.currentObject.eval(interp, heap, vars);
 	}
 

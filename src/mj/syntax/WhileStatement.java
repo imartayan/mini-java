@@ -41,7 +41,7 @@ public class WhileStatement implements Statement {
 		if(!condType.isSubtypeOf(new BooleanType(), context)) {
 			throw new TypeError("Type mismatch: cannot convert from " + condType.toString() + " to boolean");
 		}
-		this.statement.typeCheck(t);
+		this.statement.typeCheck(context);
 	}
 
 }
