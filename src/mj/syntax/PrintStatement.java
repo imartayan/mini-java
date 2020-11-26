@@ -32,9 +32,10 @@ public class PrintStatement implements Statement {
 	}
 
 	public void typeCheck(TypeChecker context) throws TypeError {
-		expression.type(context);
+		if (expression.type(context).isSubtypeOf(new IntegerType(), context)) {
+			throw new TypeError("Cannot print non integer parameter");
+		}
 
 	}
 
 }
-
