@@ -9,8 +9,8 @@ import mj.type_checker.TypeError;
 
 public class ThisExpression implements Expression {
 
-	public Value eval(Interpreter interp, Heap heap, LocalVar vars) {
-		return interp.currentObject;
+	public Value eval(Interpreter interp, Heap heap, LocalVar vars) { 
+		return interp.currentObject.eval(interp, heap, vars);
 	}
 
 	public void print() {

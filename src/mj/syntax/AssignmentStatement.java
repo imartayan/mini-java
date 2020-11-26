@@ -20,7 +20,7 @@ public class AssignmentStatement implements Statement {
 
 	public void eval(Interpreter interp, Heap heap, LocalVar vars) throws ExecError {
 		Value value = expression.eval(interp, heap, vars);
-		heap.fieldUpdate(interp.currentObject,identifier,value);
+		heap.fieldUpdate(interp.currentObject.eval(interp, heap, vars),identifier,value);
 	}
 
 	public void print(Printer pp) {

@@ -2,6 +2,8 @@ package mj.syntax;
 
 import java.util.List;
 import java.util.Iterator;
+import java.util.Collections;
+import java.util.Map;
 import mj.Couples;
 
 import mj.ExecError;
@@ -24,8 +26,38 @@ public class MessageSend implements Expression {
 	}
 
 	public Value eval(Interpreter interp, Heap heap, LocalVar vars) throws ExecError {
-		interp.currentObject = receiver.eval(interp, heap, vars); 
-		return null;
+		//Saving data before method appliciation
+		Identifier exCurrentObject= interp.currentObject;
+		try {
+			interp.currentObject = (Identifier) receiver;
+		} catch (ClassCastException e) {
+			throw new ExecError("MessageSend : cannot cast receiver to Identifier");
+		}
+		Map<Identifier, Value> exObjects = Collections.emptyMap();
+		exObjects.putAll(interp.objects);
+		//Getting method
+		MethodDeclaration method=(interp.methods.get(interp.currentObject).get(name));
+		//Add arguments as local variables
+		LocalVar WorkVars = new LocalVar(method.params);
+		WorkVars.types.putAll(vars.types);
+		WorkVars.values.putAll(vars.values);
+		Iterator<VarDeclaration> paramsIterator = method.params.iterator();
+		Iterator<Expression> argumentsIterator = this.arguments.iterator();
+		while (paramsIterator.hasNext() && argumentsIterator.hasNext()) {
+			Identifier paramIdentifier = paramsIterator.next().identifier;
+			Value argValue = argumentsIterator.next().eval(interp, heap, vars);
+			WorkVars.store(paramIdentifier, argValue);
+		}
+		//Evaluation
+		for (VarDeclaration varDec: method.declarations) {
+			WorkVars.init(varDec.identifier,varDec.type, varDec.type.defaultValue());
+		}
+		method.body.eval(interp, heap, WorkVars);
+		Value res= method.result.eval(interp, heap, WorkVars);
+		//Resetting initial paramaters (vars is not changed due to our use of WorkVars)
+		interp.currentObject = exCurrentObject;
+		interp.objects = exObjects;
+		return res;
 	}
 
 	public void print() {
