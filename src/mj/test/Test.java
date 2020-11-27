@@ -19,13 +19,13 @@ public class Test {
         "tests/ok/TestMain.java",
         "tests/ok/TestClass.java",
         "tests/ok/TestMethod.java",
+        "tests/ok/OperationTest.java",
         "tests/ok/BinaryTree.java",
         "tests/ok/BubbleSort.java",
         "tests/ok/Factorial.java",
         "tests/ok/LinearSearch.java",
         "tests/ok/MoreThan4.java",
         "tests/ok/QuickSort.java",
-        "tests/ok/OperationTest.java",
         "tests/ok/TreeVisitor.java"
     };
 
@@ -48,13 +48,16 @@ public class Test {
                 System.out.println("Typechecking " + filename);
                 p.typeCheck(t);
                 Interpreter interp = new Interpreter(p);
+                SimpleHeap h = new SimpleHeap(interp);
                 System.out.println("Evaluating " + filename);
-                interp.run(new SimpleHeap(interp));
+                interp.run(h);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (TypeError e) {
                 e.printStackTrace();
             } catch (ExecError e) {
+                e.printStackTrace();
+            } catch (NullPointerException e) {
                 e.printStackTrace();
             }
         }
@@ -68,8 +71,9 @@ public class Test {
                 System.out.println("Typechecking " + filename);
                 p.typeCheck(t);
                 Interpreter interp = new Interpreter(p);
+                SimpleHeap h = new SimpleHeap(interp);
                 System.out.println("Executing " + filename);
-                interp.run(new SimpleHeap(interp));
+                interp.run(h);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (TypeError e) {
