@@ -31,9 +31,12 @@ public class Test {
     };
 
     private static String[] invalidFiles = {
+        "tests/error/TestVarType.java",
         "tests/error/TestArgType.java",
         "tests/error/TestArgNumber.java",
+        "tests/error/TestReturnType.java",
         "tests/error/TestInitialization.java",
+        "tests/error/TestIndexTooBig.java",
         "tests/error/BinaryTree-error.java",
         "tests/error/BubbleSort-error.java",
         "tests/error/Factorial-error.java",
