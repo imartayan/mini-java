@@ -62,31 +62,38 @@ public class Identifier implements Type, Expression {
 	}
 
 	public boolean isSubtypeOf(Type t, TypeChecker context) {
-        if (context.isClass(this)) {
-            try {
-                // if t corresponds to a class, we can cast it to an identifier
-                Identifier superId = (Identifier) t;
-                return context.inheritsFrom(this, superId);
-            } catch (ClassCastException e) {
-                // t is not associated to a class
-                return false;
-            }
+		if (context.isClass(this)) {
+			try {
+				// if t corresponds to a class, we can cast it to an identifier
+				Identifier superId = (Identifier) t;
+				return context.inheritsFrom(this, superId);
+			} catch (ClassCastException e) {
+				// t is not associated to a class
+				return false;
+			}
 		} else {
-            Type thisType = context.lookup(this);
-            return thisType.isSubtypeOf(t, context);
-        }
+			Type thisType = context.lookup(this);
+			return thisType.isSubtypeOf(t, context);
+		}
 	}
 
 	public Type type(TypeChecker context) throws TypeError {
-        // separe lookupVar et lookupClass
-        return context.lookup(this);
+		// separe lookupVar et lookupClass
+		Type res = context.lookup(this);
+		if (res != null) {
+			return res;
+		}
+		throw new TypeError(
+				"l:" + this.line + ", c:" + this.col + " - " + this.name + " cannot be resolved to a variable");
+
 	}
 
-    public void checkInitialization(TypeChecker context) throws TypeError {
-        if (context.isLocal(this) && !context.isInitialized(this)) {
-            throw new TypeError("l:" + this.line + ", c:" + this.col + " - Variable " + this.toString() + " is not initialized");
-        }
-    }
+	public void checkInitialization(TypeChecker context) throws TypeError {
+		if (context.isLocal(this) && !context.isInitialized(this)) {
+			throw new TypeError(
+					"l:" + this.line + ", c:" + this.col + " - Variable " + this.toString() + " is not initialized");
+		}
+	}
 
 	@Override
 	public Value defaultValue() {
