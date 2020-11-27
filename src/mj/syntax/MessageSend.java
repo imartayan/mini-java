@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Iterator;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Map.Entry;
 import mj.Couples;
 
 import mj.ExecError;
@@ -66,10 +67,16 @@ public class MessageSend implements Expression {
 	public Value eval(Interpreter interp, Heap heap, LocalVar vars) throws ExecError {
 		Identifier exCurrentObject = interp.currentObject;
 		//Defining new currentObject
-		try {
-			interp.currentObject = (Identifier) receiver; // The receiver must be the object wich the method belongs to.
-		} catch (ClassCastException e) {
-			throw new ExecError("MessageSend : cannot cast receiver to Identifier");
+		Value recEval = receiver.eval(interp, heap, vars);
+		boolean changed = false;
+		for (Entry<Identifier, Value> entry : interp.objects.entrySet()) {
+			if (entry.getValue().equals(recEval)) {
+				interp.currentObject = entry.getKey();
+				changed = true;
+			}
+		}
+		if (!changed) {
+			throw new ExecError("MessageSend : Unknown "+receiver);
 		}
 		// Getting method
 		ClassDeclaration methodsClass = interp.classes.get(heap.classname(interp.objects.get(interp.currentObject)));
