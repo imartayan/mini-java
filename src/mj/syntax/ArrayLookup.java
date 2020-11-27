@@ -21,6 +21,7 @@ public class ArrayLookup implements Expression {
 	public Value eval(Interpreter interp, Heap heap, LocalVar vars) throws ExecError {
 		Value array = expression1.eval(interp, heap, vars);
 		try {
+			// cast en Int car l'indice du tableau qu'on regarde doit etre un entier
 			Int index = (Int) expression2.eval(interp, heap, vars);
 			return heap.arrayLookup(array, index);
 		} catch (ClassCastException e) {

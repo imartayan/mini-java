@@ -19,6 +19,7 @@ public class NotExpression implements Expression {
 	public Value eval(Interpreter interp, Heap heap, LocalVar vars) throws ExecError {
 		Value toNegate = expression.eval(interp, heap, vars);
 		try {
+			// On cast vers Int car l'expression doit s'evaluer en un booleen
 			if (((Int) toNegate).val == 0) {
 				return new Int(1);
 			} else {
