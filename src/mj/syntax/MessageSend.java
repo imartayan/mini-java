@@ -145,23 +145,25 @@ public class MessageSend implements Expression {
 
 	public Type type(TypeChecker context) throws TypeError {
 		try {
-			Identifier exprId = (Identifier) this.receiver.type(context);
+			Identifier classId = (Identifier) this.receiver.type(context);
 			// This throws an exception if the expression isn't an identifier
 			// and more specifically a class name
-			if (!context.isClass(exprId)) {
-				throw new ClassCastException(); // See the catch block error
+			if (!context.isClass(classId)) {
+                throw new ClassCastException();
+                // See the catch block error
 			}
-
-			if (!context.isMethod(exprId, this.name)) {
+			if (!context.isMethod(classId, this.name)) {
                 // Check that the method is defined
-				throw new TypeError("l:" + exprId.line + ", c:" + exprId.col + " - Method " + this.name.toString()
-						+ " undefined for class " + exprId.toString());
+				throw new TypeError(
+                    "l:" + classId.line + ", c:" + classId.col + " - Method " + this.name.toString() + " undefined for class " + classId.toString()
+                );
 			}
-			Couples<Type, List<Type>> expectedType = context.lookupMethod(exprId, this.name);
+			Couples<Type, List<Type>> expectedType = context.lookupMethod(classId, this.name);
 			if (this.arguments.size() != expectedType.second.size()) {
                 // Check the number of arguments is correct
 				throw new TypeError(
-						"l:" + this.name.line + ", c:" + this.name.col + " - Unexpected number of arguments");
+                    "l:" + this.name.line + ", c:" + this.name.col + " - Unexpected number of arguments"
+                );
 			}
 
 			Iterator<Expression> argsIterator = this.arguments.iterator();
@@ -173,16 +175,17 @@ public class MessageSend implements Expression {
                 Type expectedNext = expectedIterator.next();
                 // is of the proper declared type
 				if (!argsNext.isSubtypeOf(expectedNext, context)) {
-					throw new TypeError("l:" + this.name.line + ", c:" + this.name.col
-							+ " - Argument type does not match: expected " + expectedNext.toString() + " but was "
-							+ argsNext.toString());
+					throw new TypeError(
+                        "l:" + this.name.line + ", c:" + this.name.col + " - Argument type does not match: expected " + expectedNext.toString() + " but was " + argsNext.toString()
+                    );
 				}
 			}
             // Return the function's declared return type if no exception was thrown
             return expectedType.first;
 		} catch (ClassCastException e) {
-			throw new TypeError("l:" + this.name.line + ", c:" + this.name.col + " - " + receiver.toString()
-					+ " cannot be evaluated to an existing class");
+			throw new TypeError(
+                "l:" + this.name.line + ", c:" + this.name.col + " - " + receiver.toString() + " cannot be evaluated to an existing class"
+            );
 		}
 	}
 
