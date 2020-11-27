@@ -25,9 +25,9 @@ public class MessageSend implements Expression {
 		this.arguments = arguments;
 	}
 
-	public Value eval(Interpreter interp, Heap heap, LocalVar vars) throws ExecError {
-		// Saving data before method appliciation
-		Identifier exCurrentObject = interp.currentObject;
+	public Value LEGACYeval(Interpreter interp, Heap heap, LocalVar vars) throws ExecError {
+		//Saving data before method appliciation
+		Identifier exCurrentObject= interp.currentObject;
 		try {
 			interp.currentObject = (Identifier) receiver;
 		} catch (ClassCastException e) {
@@ -60,6 +60,62 @@ public class MessageSend implements Expression {
 		interp.currentObject = exCurrentObject;
 		interp.objects = exObjects;
 		interp.arrays = exArrays;
+		return res;
+	}
+
+	public Value eval(Interpreter interp, Heap heap, LocalVar vars) throws ExecError { 
+		Identifier exCurrentObject= interp.currentObject;
+		//Defining new currentObject
+		try {
+			interp.currentObject = (Identifier) receiver; //The receiver must be the object wich the method belongs to.
+		} catch (ClassCastException e) {
+			throw new ExecError("MessageSend : cannot cast receiver to Identifier");
+		}
+		//Getting method
+		ClassDeclaration methodsClass = interp.classes.get(heap.classname(interp.objects.get(interp.currentObject)));
+		Identifier methodsClassName = methodsClass.name;
+		MethodDeclaration method = null;
+		while (method==null) {
+			if (interp.methods.get(methodsClassName).containsKey(this.name)) {
+				method = interp.methods.get(methodsClassName).get(this.name);
+			} else if (methodsClass.superClass.isPresent()) { //If not found, check for superClass
+				methodsClassName=methodsClass.superClass.get();
+				methodsClass=interp.classes.get(methodsClassName);
+			} else {
+				throw new ExecError("MessageSend : No definition for this method");
+			}
+		}
+		// Setting-up variables
+			//Parameters
+		LocalVar workVars = new LocalVar(method.params);
+		Iterator<VarDeclaration> paramsIterator = method.params.iterator();
+		Iterator<Expression> argumentsIterator = this.arguments.iterator();
+		while (paramsIterator.hasNext() && argumentsIterator.hasNext()) {
+			Identifier paramIdentifier = paramsIterator.next().identifier;
+			Value argValue = argumentsIterator.next().eval(interp, heap, vars);
+			workVars.store(paramIdentifier, argValue);
+		}
+			//Objects fields
+		ClassDeclaration currentClass = interp.classes.get(heap.classname(interp.objects.get(interp.currentObject)));
+		Value object = interp.objects.get(interp.currentObject);
+		for (VarDeclaration varDec : currentClass.varDeclarations) {
+			if (!(workVars.types.containsKey(varDec.identifier))) {	//Si l'identifiant a déjà été donné pour un paramètre, la valeur du champs est ignoré. 
+				workVars.init(varDec.identifier, varDec.type, heap.fieldLookup(object, varDec.identifier));
+			}
+		}
+        while (currentClass.superClass.isPresent()) {
+            currentClass = interp.classes.get(currentClass.superClass.get());
+            for (VarDeclaration varDec : currentClass.varDeclarations) {
+				if (!(workVars.types.containsKey(varDec.identifier))) {	//Si l'identifiant a déjà été donné pour un paramètre, la valeur du champs est ignoré. 
+					workVars.init(varDec.identifier, varDec.type, heap.fieldLookup(object, varDec.identifier));
+				}
+	        }    
+		}
+		//Evaluation
+		method.body.eval(interp, heap, workVars);
+		Value res = method.result.eval(interp, heap, workVars);
+		//Leaving
+		interp.currentObject = exCurrentObject;
 		return res;
 	}
 

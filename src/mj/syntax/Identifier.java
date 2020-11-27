@@ -34,7 +34,7 @@ public class Identifier implements Type, Expression {
 		} else if (vars.values.containsKey(this)) {
 			return vars.values.get(this);
 		} else {
-			throw new ExecError("Identifier evaluation : undefined variable, array or object");
+			throw new ExecError("Identifier evaluation : undefined variable, array or object " + this.name + " at line " + this.line);
 		}
 	}
 

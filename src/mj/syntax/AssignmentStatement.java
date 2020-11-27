@@ -23,7 +23,11 @@ public class AssignmentStatement implements Statement {
 		if (expression instanceof ArrayAllocationExpression) {
 			interp.arrays.put(identifier, value);
 		}
+		if (vars.types.containsKey(identifier)) {
+			vars.store(identifier, expression.eval(interp, heap, vars));
+		} else {
 		heap.fieldUpdate(interp.currentObject.eval(interp, heap, vars),identifier,value);
+		}
 	}
 
 	public void print(Printer pp) {

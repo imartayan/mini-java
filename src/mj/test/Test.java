@@ -37,7 +37,6 @@ public class Test {
         "tests/error/LinearSearch-error.java",
         "tests/error/MoreThan4-error.java",
         "tests/error/QuickSort-error.java",
-        "tests/error/OperationTest-error.java",
         "tests/error/TreeVisitor-error.java"
     };
 
@@ -49,7 +48,7 @@ public class Test {
                 System.out.println("Typechecking " + filename);
                 p.typeCheck(t);
                 Interpreter interp = new Interpreter(p);
-                System.out.println("Executing " + filename);
+                System.out.println("Evaluating " + filename);
                 interp.run(new SimpleHeap(interp));
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
