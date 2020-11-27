@@ -19,6 +19,7 @@ public class Test {
         "tests/ok/TestMain.java",
         "tests/ok/TestClass.java",
         "tests/ok/TestMethod.java",
+        "tests/ok/TestAllocation.java",
         "tests/ok/OperationTest.java",
         "tests/ok/BinaryTree.java",
         "tests/ok/BubbleSort.java",
