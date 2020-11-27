@@ -15,10 +15,10 @@ import mj.ExecError;
 
 public class Test {
     private static String[] validFiles = {
-        "tests/ok/TypecheckProgram.java",
-        "tests/ok/TypecheckMain.java",
-        "tests/ok/TypecheckClass.java",
-        "tests/ok/TypecheckMethod.java",
+        "tests/ok/TestProgram.java",
+        "tests/ok/TestMain.java",
+        "tests/ok/TestClass.java",
+        "tests/ok/TestMethod.java",
         "tests/ok/BinaryTree.java",
         "tests/ok/BubbleSort.java",
         "tests/ok/Factorial.java",
