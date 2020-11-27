@@ -57,5 +57,4 @@ public class ClassDeclaration {
 		}
 		t.removeClassVariables(this);
 	}
-
 }

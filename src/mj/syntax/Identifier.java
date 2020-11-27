@@ -72,19 +72,21 @@ public class Identifier implements Type, Expression {
 				return false;
 			}
 		} else {
-			Type thisType = context.lookup(this);
+			Type thisType = context.lookupVar(this);
 			return thisType.isSubtypeOf(t, context);
 		}
 	}
 
 	public Type type(TypeChecker context) throws TypeError {
-		// separe lookupVar et lookupClass
-		Type res = context.lookup(this);
-		if (res != null) {
-			return res;
-		}
+        // separe lookupVar et lookupClass
+        if (context.isClass(this)) {
+            return this;
+        }
+        else if (context.isVariable(this)) {
+            return context.lookupVar(this);
+        }
 		throw new TypeError(
-				"l:" + this.line + ", c:" + this.col + " - " + this.name + " cannot be resolved to a variable");
+				"l:" + this.line + ", c:" + this.col + " - " + this.name + " cannot be resolved to a method or a variable");
 
 	}
 
