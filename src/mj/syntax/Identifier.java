@@ -84,7 +84,7 @@ public class Identifier implements Type, Expression {
 
     public void checkInitialization(TypeChecker context) throws TypeError {
         if (context.isLocal(this) && !context.isInitialized(this)) {
-            throw new TypeError("Variable " + this.toString() + " is not initialized");
+            throw new TypeError("l:" + this.line + ", c:" + this.col + " - Variable " + this.toString() + " is not initialized");
         }
     }
 

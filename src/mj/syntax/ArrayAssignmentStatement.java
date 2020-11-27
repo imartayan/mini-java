@@ -50,10 +50,10 @@ public class ArrayAssignmentStatement implements Statement {
         Type expr1Type = this.expression1.type(context);
         Type expr2Type = this.expression2.type(context);
 		if(!expr1Type.isSubtypeOf(new IntegerType(), context)) {
-            throw new TypeError("Type mismatch: cannot convert from " + expr1Type.toString() + " to int");
+            throw new TypeError("l:" + this.identifier.line + ", c:" + this.identifier.col + " - Type mismatch: cannot convert from " + expr1Type.toString() + " to int");
         }
         if (!expr2Type.isSubtypeOf(new IntegerType(), context)) {
-            throw new TypeError("Type mismatch: cannot convert from " + expr2Type.toString() + " to int");
+            throw new TypeError("l:" + this.identifier.line + ", c:" + this.identifier.col + " - Type mismatch: cannot convert from " + expr2Type.toString() + " to int");
         }
 	}
 
