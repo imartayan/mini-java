@@ -17,18 +17,37 @@ public class Test {
 
     private static int passedTests;
 
-    private static String[] validFiles = { "tests/ok/TestProgram.java", "tests/ok/TestMain.java",
-            "tests/ok/TestClass.java", "tests/ok/TestMethod.java", "tests/ok/TestAllocation.java",
-            "tests/ok/OperationTest.java", "tests/ok/BinaryTree.java", "tests/ok/BubbleSort.java",
-            "tests/ok/Factorial.java", "tests/ok/LinearSearch.java", "tests/ok/MoreThan4.java",
-            "tests/ok/QuickSort.java", "tests/ok/TreeVisitor.java" };
+    private static String[] validFiles = {
+        "tests/ok/TestMain.java",
+        "tests/ok/TestClass.java",
+        "tests/ok/TestInherit.java",
+        "tests/ok/TestMethod.java",
+        "tests/ok/TestAllocation.java",
+        "tests/ok/OperationTest.java",
+        "tests/ok/BinaryTree.java",
+        "tests/ok/BubbleSort.java",
+        "tests/ok/Factorial.java",
+        "tests/ok/LinearSearch.java",
+        "tests/ok/MoreThan4.java",
+        "tests/ok/QuickSort.java",
+        "tests/ok/TreeVisitor.java"
+    };
 
-    private static String[] invalidFiles = { "tests/error/TestVarType.java", "tests/error/TestArgType.java",
-            "tests/error/TestArgNumber.java", "tests/error/TestReturnType.java", "tests/error/TestInitialization.java",
-            "tests/error/TestIndexTooBig.java", "tests/error/BinaryTree-error.java",
-            "tests/error/BubbleSort-error.java", "tests/error/Factorial-error.java",
-            "tests/error/LinearSearch-error.java", "tests/error/MoreThan4-error.java",
-            "tests/error/QuickSort-error.java", "tests/error/TreeVisitor-error.java" };
+    private static String[] invalidFiles = {
+        "tests/error/TestVarType.java",
+        "tests/error/TestArgType.java",
+        "tests/error/TestArgNumber.java",
+        "tests/error/TestReturnType.java",
+        "tests/error/TestInitialization.java",
+        "tests/error/TestIndexTooBig.java",
+        "tests/error/BinaryTree-error.java",
+        "tests/error/BubbleSort-error.java",
+        "tests/error/Factorial-error.java",
+        "tests/error/LinearSearch-error.java",
+        "tests/error/MoreThan4-error.java",
+        "tests/error/QuickSort-error.java",
+        "tests/error/TreeVisitor-error.java"
+    };
 
     private static void runPositiveTests() {
         for (String filename : validFiles) {
