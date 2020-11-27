@@ -39,7 +39,7 @@ public class AssignmentStatement implements Statement {
 		Type exprType = this.expression.type(context);
 		Type idType = this.identifier.type(context);
 		if(!exprType.isSubtypeOf(idType, context)) {
-			throw new TypeError("Type mismatch: cannot convert from " + exprType.toString() + " to " + idType.toString());
+			throw new TypeError("l:" + this.identifier.line + ", c:" + this.identifier.col + " - Type mismatch: cannot convert from " + exprType.toString() + " to " + idType.toString());
 		}
         context.addInitVariable(this.identifier, true);
 	}

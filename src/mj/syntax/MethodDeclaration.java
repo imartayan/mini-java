@@ -16,7 +16,6 @@ public class MethodDeclaration {
 	public final Statement body;
 	public final Expression result;
 
-
 	public MethodDeclaration(Type resType, Identifier name, List<VarDeclaration> params,
 			List<VarDeclaration> declarations, Statement body, Expression result) {
 		this.resType = resType;
@@ -34,9 +33,10 @@ public class MethodDeclaration {
 		System.out.print(" ");
 		name.print();
 		System.out.print("(");
-		int i = 0 ;
-		for (VarDeclaration vd: params) {
-			if (i++ > 0) System.out.print(", ");
+		int i = 0;
+		for (VarDeclaration vd : params) {
+			if (i++ > 0)
+				System.out.print(", ");
 			vd.type.print();
 			System.out.print(" ");
 			vd.identifier.print();
@@ -45,14 +45,14 @@ public class MethodDeclaration {
 		assert (body instanceof Block);
 		Block b = (Block) body;
 		pp.incrLevel();
-		for (VarDeclaration vd: declarations) {
+		for (VarDeclaration vd : declarations) {
 			pp.indent();
 			vd.type.print();
 			System.out.print(" ");
 			vd.identifier.print();
 			System.out.println(";");
 		}
-		for (Statement stmt: b.statements)
+		for (Statement stmt : b.statements)
 			stmt.print(pp);
 		pp.indent();
 		System.out.print("return ");
@@ -64,24 +64,26 @@ public class MethodDeclaration {
 	}
 
 	public void typeCheck(TypeChecker context) throws TypeError {
-		for(VarDeclaration newParam : this.params) {
+		for (VarDeclaration newParam : this.params) {
 			context.addVariable(newParam.identifier, newParam.type);
 		}
-		for(VarDeclaration newVar : this.declarations) {
+		for (VarDeclaration newVar : this.declarations) {
 			context.addVariable(newVar.identifier, newVar.type);
-            context.addInitVariable(newVar.identifier, false);
-        }
+			context.addInitVariable(newVar.identifier, false);
+		}
 		this.body.typeCheck(context);
 		Type returnType = this.result.type(context);
-		if(!returnType.isSubtypeOf(this.resType, context)) {
-			throw new TypeError("Type mismatch : cannot convert from " + this.resType.toString() + " to " + returnType.toString());
+		if (!returnType.isSubtypeOf(this.resType, context)) {
+			throw new TypeError(
+					"l:" + this.name.line + ", c:" + this.name.col + " - Type mismatch : cannot convert from "
+							+ this.resType.toString() + " to " + returnType.toString());
 		}
-        for (VarDeclaration newParam : this.params) {
-            context.removeVariable(newParam.identifier);
-        }
-        for (VarDeclaration newVar : this.declarations) {
-            context.removeVariable(newVar.identifier);
-            context.removeInitVariable(newVar.identifier);
-        }
+		for (VarDeclaration newParam : this.params) {
+			context.removeVariable(newParam.identifier);
+		}
+		for (VarDeclaration newVar : this.declarations) {
+			context.removeVariable(newVar.identifier);
+			context.removeInitVariable(newVar.identifier);
+		}
 	}
 }

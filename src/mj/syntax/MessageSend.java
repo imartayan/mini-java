@@ -26,8 +26,8 @@ public class MessageSend implements Expression {
 	}
 
 	public Value eval(Interpreter interp, Heap heap, LocalVar vars) throws ExecError {
-		//Saving data before method appliciation
-		Identifier exCurrentObject= interp.currentObject;
+		// Saving data before method appliciation
+		Identifier exCurrentObject = interp.currentObject;
 		try {
 			interp.currentObject = (Identifier) receiver;
 		} catch (ClassCastException e) {
@@ -37,9 +37,9 @@ public class MessageSend implements Expression {
 		exObjects.putAll(interp.objects);
 		Map<Identifier, Value> exArrays = Collections.emptyMap();
 		exObjects.putAll(interp.arrays);
-		//Getting method
-		MethodDeclaration method=(interp.methods.get(interp.currentObject).get(name));
-		//Add arguments as local variables
+		// Getting method
+		MethodDeclaration method = (interp.methods.get(interp.currentObject).get(name));
+		// Add arguments as local variables
 		LocalVar WorkVars = new LocalVar(method.params);
 		WorkVars.types.putAll(vars.types);
 		WorkVars.values.putAll(vars.values);
@@ -50,13 +50,13 @@ public class MessageSend implements Expression {
 			Value argValue = argumentsIterator.next().eval(interp, heap, vars);
 			WorkVars.store(paramIdentifier, argValue);
 		}
-		//Evaluation
-		for (VarDeclaration varDec: method.declarations) {
-			WorkVars.init(varDec.identifier,varDec.type, varDec.type.defaultValue());
+		// Evaluation
+		for (VarDeclaration varDec : method.declarations) {
+			WorkVars.init(varDec.identifier, varDec.type, varDec.type.defaultValue());
 		}
 		method.body.eval(interp, heap, WorkVars);
-		Value res= method.result.eval(interp, heap, WorkVars);
-		//Resetting initial paramaters (vars is not changed due to our use of WorkVars)
+		Value res = method.result.eval(interp, heap, WorkVars);
+		// Resetting initial paramaters (vars is not changed due to our use of WorkVars)
 		interp.currentObject = exCurrentObject;
 		interp.objects = exObjects;
 		interp.arrays = exArrays;
@@ -72,28 +72,32 @@ public class MessageSend implements Expression {
 		String argsString = "";
 		boolean start = true;
 		for (Expression e : arguments) {
-            if (start) {
-                argsString += e.toString();
+			if (start) {
+				argsString += e.toString();
 				start = false;
 			} else {
-                argsString += ", " + e.toString();
+				argsString += ", " + e.toString();
 			}
-        }
+		}
 		return this.receiver.toString() + "." + this.name.toString() + "(" + argsString + ")";
 	}
 
 	public Type type(TypeChecker context) throws TypeError {
 		try {
-			Identifier exprId = (Identifier) this.receiver.type(context);
+			Identifier exprId = (Identifier) this.receiver.type(context); // This throws an exception if the expression
+																			// isn't an identifier, and more
+																			// specifically a class name
 			if (!context.isClass(exprId)) {
 				throw new ClassCastException();
 			}
 			Couples<Type, List<Type>> expectedType = context.lookupMethod(exprId, this.name);
 			if (expectedType == null) {
-				throw new TypeError("Method " + this.name.toString() + " undefined for class " + exprId.toString());
+				throw new TypeError("l:" + exprId.line + ", c:" + exprId.col + " - Method " + this.name.toString()
+						+ " undefined for class " + exprId.toString());
 			}
 			if (this.arguments.size() != expectedType.second.size()) {
-				throw new TypeError("Unexpected number of arguments");
+				throw new TypeError(
+						"l:" + this.name.line + ", c:" + this.name.col + " - Unexpected number of arguments");
 			}
 			Iterator<Expression> argsIterator = this.arguments.iterator();
 			Iterator<Type> expectedIterator = expectedType.second.iterator();
@@ -101,20 +105,22 @@ public class MessageSend implements Expression {
 				Type argsNext = argsIterator.next().type(context);
 				Type expectedNext = expectedIterator.next();
 				if (argsNext != expectedNext) {
-					throw new TypeError("Argument type does not match: expected " + expectedNext.toString()
-							+ " but was " + argsNext.toString());
+					throw new TypeError("l:" + this.name.line + ", c:" + this.name.col
+							+ " - Argument type does not match: expected " + expectedNext.toString() + " but was "
+							+ argsNext.toString());
 				}
 			}
 			return expectedType.first;
 		} catch (ClassCastException e) {
-			throw new TypeError(receiver.toString() + " cannot be evaluated to an existing class");
+			throw new TypeError("l:" + this.name.line + ", c:" + this.name.col + " - " + receiver.toString()
+					+ " cannot be evaluated to an existing class");
 		}
 	}
 
-    public void checkInitialization(TypeChecker context) throws TypeError {
-        for (Expression e : arguments) {
-            e.checkInitialization(context);
-        }
-    }
+	public void checkInitialization(TypeChecker context) throws TypeError {
+		for (Expression e : arguments) {
+			e.checkInitialization(context);
+		}
+	}
 
 }
