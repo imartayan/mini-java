@@ -84,9 +84,9 @@ public class MessageSend implements Expression {
 
 	public Type type(TypeChecker context) throws TypeError {
 		try {
-			Identifier exprId = (Identifier) this.receiver.type(context); // This throws an exception if the expression
-																			// isn't an identifier, and more
-																			// specifically a class name
+			Identifier exprId = (Identifier) this.receiver.type(context);
+			// This throws an exception if the expression isn't an identifier, and more
+			// specifically a class name
 			if (!context.isClass(exprId)) {
 				throw new ClassCastException();
 			}
