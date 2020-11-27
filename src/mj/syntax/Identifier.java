@@ -62,16 +62,24 @@ public class Identifier implements Type, Expression {
 	}
 
 	public boolean isSubtypeOf(Type t, TypeChecker context) {
-		Type thisType = context.lookup(this);
-		if (thisType == this) {
-			return context.inheritsFrom(this, t);
-		}
-		return thisType.isSubtypeOf(t, context);
-
+        if (context.isClass(this)) {
+            try {
+                // if t corresponds to a class, we can cast it to an identifier
+                Identifier superId = (Identifier) t;
+                return context.inheritsFrom(this, superId);
+            } catch (ClassCastException e) {
+                // t is not associated to a class
+                return false;
+            }
+		} else {
+            Type thisType = context.lookup(this);
+            return thisType.isSubtypeOf(t, context);
+        }
 	}
 
 	public Type type(TypeChecker context) throws TypeError {
-		return context.lookup(this);
+        // separe lookupVar et lookupClass
+        return context.lookup(this);
 	}
 
     public void checkInitialization(TypeChecker context) throws TypeError {
