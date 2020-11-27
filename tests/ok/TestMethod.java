@@ -1,11 +1,18 @@
-class CheckMethod{
+class TestMethod{
     public static void main(String[] a){
-        System.out.println(42);
+        TestMethodA objA;
+        TestMethodB objB;
+        int sA;
+        int sB;
+        objA = new TestMethodA();
+        objB = new TestMethodB();
+        sA = objA.test();
+        sB = objA.test();
     }
 }
 
-// Check argument type verification
-class CheckMethodA{
+// Test argument type verification
+class TestMethodA{
     public int sum(int a, boolean b, int c) {
         return a + c;
     }
@@ -16,7 +23,7 @@ class CheckMethodA{
     }
 }
 
-class CheckMethodObject {
+class TestMethodObject {
     int value;
     public int setValue(int val) {
         value = val;
@@ -24,7 +31,7 @@ class CheckMethodObject {
     }
 }
 
-class CheckMethodObjectPriority extends CheckMethodObject {
+class TestMethodObjectPriority extends TestMethodObject {
     int priority;
     public int setPriority(int p) {
         priority = p;
@@ -32,9 +39,9 @@ class CheckMethodObjectPriority extends CheckMethodObject {
     }
 }
 
-// Check that argument is a subtype of the expected type
-class CheckMethodB {
-    public int sumValues(CheckMethodObject a, CheckMethodObject b) {
+// Test that argument is a subtype of the expected type
+class TestMethodB {
+    public int sumValues(TestMethodObject a, TestMethodObject b) {
         int valA;
         int valB;
         valA = a.setValue(1);
@@ -42,10 +49,10 @@ class CheckMethodB {
         return valA + valB;
     }
     public int test() {
-        CheckMethodObjectPriority objA;
-        CheckMethodObject objB;
-        objA = new CheckMethodObjectPriority();
-        objB = new CheckMethodObject();
+        TestMethodObjectPriority objA;
+        TestMethodObject objB;
+        objA = new TestMethodObjectPriority();
+        objB = new TestMethodObject();
         return this.sumValues(objA, objB);
     }
 }
