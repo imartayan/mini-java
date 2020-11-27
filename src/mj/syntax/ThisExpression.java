@@ -25,7 +25,7 @@ public class ThisExpression implements Expression {
 
 	@Override
 	public Type type(TypeChecker context) throws TypeError {
-		return context.lookup(context.getCurrentClass());
+		return context.getCurrentClass();
 	}
 
     public void checkInitialization(TypeChecker context) throws TypeError {}
