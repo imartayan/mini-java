@@ -30,6 +30,8 @@ public class Test {
         "tests/ok/LinearSearch.java",
         "tests/ok/MoreThan4.java",
         "tests/ok/QuickSort.java",
+        "tests/ok/ArrayTest.java",
+        "tests/ok/BooleanTest.java",
         "tests/ok/TreeVisitor.java"
     };
 
