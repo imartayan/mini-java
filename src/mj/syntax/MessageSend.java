@@ -149,12 +149,12 @@ public class MessageSend implements Expression {
 				throw new ClassCastException(); // See the catch block error
 			}
 
-			Couples<Type, List<Type>> expectedType = context.lookupMethod(exprId, this.name);
-			if (expectedType == null) {
+			if (!context.isMethod(exprId, this.name)) { // Check that the method is defined
 				throw new TypeError("l:" + exprId.line + ", c:" + exprId.col + " - Method " + this.name.toString()
 						+ " undefined for class " + exprId.toString());
 			}
-			if (this.arguments.size() != expectedType.second.size()) {
+			Couples<Type, List<Type>> expectedType = context.lookupMethod(exprId, this.name);
+			if (this.arguments.size() != expectedType.second.size()) { // Check the number of arguments is correct
 				throw new TypeError(
 						"l:" + this.name.line + ", c:" + this.name.col + " - Unexpected number of arguments");
 			}
@@ -170,7 +170,7 @@ public class MessageSend implements Expression {
 							+ argsNext.toString());
 				}
 			}
-			return expectedType.first;	// Return the function's declared return type if no exception was thrown
+			return expectedType.first; // Return the function's declared return type if no exception was thrown
 		} catch (ClassCastException e) {
 			throw new TypeError("l:" + this.name.line + ", c:" + this.name.col + " - " + receiver.toString()
 					+ " cannot be evaluated to an existing class");
