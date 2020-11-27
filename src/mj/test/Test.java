@@ -31,7 +31,9 @@ public class Test {
     };
 
     private static String[] invalidFiles = {
-        "tests/error/TypecheckNotInitialized.java",
+        "tests/error/TestArgType.java",
+        "tests/error/TestArgNumber.java",
+        "tests/error/TestInitialization.java",
         "tests/error/BinaryTree-error.java",
         "tests/error/BubbleSort-error.java",
         "tests/error/Factorial-error.java",
