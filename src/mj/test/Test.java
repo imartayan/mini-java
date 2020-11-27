@@ -19,7 +19,7 @@ public class Test {
         "tests/ok/Factorial.java",
         "tests/ok/LinearSearch.java",
         "tests/ok/MoreThan4.java",
-        "tests/ok/Quicksort.java",
+        "tests/ok/QuickSort.java",
         "tests/ok/TreeVisitor.java"
     };
     private static String[] invalidFiles = {
@@ -51,7 +51,7 @@ public class Test {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (TypeError e) {
-                System.out.println("TypeError");
+                System.out.println("TypeError as expected");
             }
         }
     }
