@@ -10,14 +10,27 @@ On discute donc ci-après des détails de l'implémentation de ces trois différ
 
 ## Gestion de l'interpréteur
 
+
 truc(s) à dire :
 - param > field en terme de priorité
+Interpreter a reçu de nouveaux champs : arrays et objects. Ils font le liens entre les noms de variables de type Identifier et l'objet ou le tableau qu'elles représentent. La possibilité de mettre ces champs dans Heap ou dans SimpleHeap a été étudiée mais n'a pas été retenue : dans Heap, il fallait leur donner une valeur par défaut, ce qui ne correspondait pas à ce que nous attendions. Dans SimpleHeap, nous pouvions laisser les champs sans initialisation, mais comme ces champs n'appartenaient pas à la classe mère, il nous fallait caster tous les Heap en SimpleHeap pour pouvoir les utiliser, ce qui n'était pas pratique, surtout dans l'optique d'utiliser ensuite AvancedHeap.    
+Interpreter a également reçu un champ currentObject, qui contient l'identifiant de l'objet sur le-quel l'interpreteur execute des choses actuellement. Ce champs est notament utile pour le fichier ThisExpression, où lors d'appel de méthodes.
+On a recontré la nécéssité d'avoir pour tous les objets crés, que leurs adresses soient stockés dans une variable ou non, un identifiant pour pouvoir s'y référer autrement que par leur valeur-adresse. Nous avons donc créer une nouvelle classe UniqueIdentifier, qui hérite de Identifier et qui, à chaque fois qu'elle est appellée renvoit un identifiant unique. Cet identifiant ne peut pas entrer en collision avec les noms de variable que donne l'utilisateur.  
 
 ## Gestion de la vérification de types
 
 La vérification de type s'effectue de manière assez simple, avec des appels successifs sur les objets imbriqués de l'arbre syntaxique.
 On vérifie ainsi que le typage d'un programme est correct en vérifiant le typage de la classe principale (contenant main) et de toutes les déclarations de classes qui suivent.
+
 La vérification des déclarations de classes se fait en vérifiant le typage des variables et et des méthodes, et ainsi de suite.
 De cette façon, on descend dans l'arbre syntaxique jusqu'aux expressions, où on évalue les types en fonction des variables (dont on a mémorisé au préalable la déclaration, et donc le type).
 
 ## Gestion des tests
+
+Pour lancer les tests, lancer le main de src/mj/test/Test.java. Cette class lance d'abord le vérificateur de type puis l'interpréteur sur les programmes du répertoire tests/, qui contient un sous dossier error/ et un sous dossier ok/.  
+
+Le sous-dossier error/ contient des programmes MiniJava qui doivent provoquer une erreur, soit lors de la vérification de type, soit lors de l'exécution par l'interpréteur.
+
+Le sous-dossier ok/ contient des programmes MiniJava qui doivent passer sans lever d'exceptions lors de la vérification de type ou à l'éxécution.
+
+Ces programmes de test MiniJava contiennent des commentaires indiquant les fonctionnalités testées respectivement par chaque programme.
