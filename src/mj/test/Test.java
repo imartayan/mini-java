@@ -37,7 +37,6 @@ public class Test {
         "tests/error/LinearSearch-error.java",
         "tests/error/MoreThan4-error.java",
         "tests/error/QuickSort-error.java",
-        "tests/error/OperationTest-error.java",
         "tests/error/TreeVisitor-error.java"
     };
 
