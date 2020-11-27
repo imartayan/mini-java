@@ -22,6 +22,7 @@ public class IfStatement implements Statement {
 
 	public void eval(Interpreter interp, Heap heap, LocalVar vars) throws ExecError {
 		try {
+			// Cast vers Int car la condition doit etre un booleen
 			Int cond = (Int) expression.eval(interp, heap, vars);
 			if (cond.val == 0) {
 				statement2.eval(interp, heap, vars);

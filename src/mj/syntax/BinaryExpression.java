@@ -21,6 +21,8 @@ public class BinaryExpression implements Expression {
 	};
 
 	public Value eval(Interpreter interp, Heap heap, LocalVar vars) throws ExecError {
+		// on cast vers Int car les deux operandes ne peuvent etre que des booleens ou des entiers, donc representes par le type Int
+		// (et en plus, BinaryOperation.eval() prend en argument 2 Ints)
 		return operation.eval((Int) operand1.eval(interp, heap, vars), (Int) operand2.eval(interp, heap, vars));
 	}
 
