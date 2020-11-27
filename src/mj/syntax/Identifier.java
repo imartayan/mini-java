@@ -78,7 +78,6 @@ public class Identifier implements Type, Expression {
 	}
 
 	public Type type(TypeChecker context) throws TypeError {
-        // separe lookupVar et lookupClass
         if (context.isClass(this)) {
             return this;
         }
