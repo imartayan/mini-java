@@ -30,8 +30,10 @@ public class ArrayAssignmentStatement implements Statement {
 		try {
 			heap.arrayUpdate(arr, (Int) index, (Int) i);
 		} catch (ClassCastException e) {
-			throw new ExecError("ArrayAssifnmentStatement : Unable to cast arguments to Int");
-		}
+			throw new ExecError("ArrayAssignmentStatement : Unable to cast arguments to Int");
+		} catch (ArrayIndexOutOfBoundsException e) {
+            throw new ExecError("ArrayUpdate : Array index out of bounds");
+        }
 	}
 
 	public void print(Printer pp) {

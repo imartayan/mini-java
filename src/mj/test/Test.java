@@ -14,10 +14,13 @@ import mj.Interpreter;
 import mj.ExecError;
 
 public class Test {
+
+    private static int passedTests;
+
     private static String[] validFiles = {
-        "tests/ok/TestProgram.java",
         "tests/ok/TestMain.java",
         "tests/ok/TestClass.java",
+        "tests/ok/TestInherit.java",
         "tests/ok/TestMethod.java",
         "tests/ok/TestAllocation.java",
         "tests/ok/OperationTest.java",
@@ -31,9 +34,13 @@ public class Test {
     };
 
     private static String[] invalidFiles = {
+        "tests/error/TestVarType.java",
         "tests/error/TestArgType.java",
         "tests/error/TestArgNumber.java",
+        "tests/error/TestReturnType.java",
         "tests/error/TestInitialization.java",
+        "tests/error/TestBoolOperation.java",
+        "tests/error/TestIndexTooBig.java",
         "tests/error/BinaryTree-error.java",
         "tests/error/BubbleSort-error.java",
         "tests/error/Factorial-error.java",
@@ -50,10 +57,13 @@ public class Test {
                 TypeChecker t = new TypeChecker();
                 System.out.println("Typechecking " + filename);
                 p.typeCheck(t);
+                System.out.println("No type errors found");
                 Interpreter interp = new Interpreter(p);
                 SimpleHeap h = new SimpleHeap(interp);
                 System.out.println("Evaluating " + filename);
                 interp.run(h);
+                System.out.println("No runtime errors found");
+                passedTests++;
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (TypeError e) {
@@ -64,6 +74,7 @@ public class Test {
                 e.printStackTrace();
             }
         }
+
     }
 
     private static void runNegativeTests() {
@@ -73,22 +84,28 @@ public class Test {
                 TypeChecker t = new TypeChecker();
                 System.out.println("Typechecking " + filename);
                 p.typeCheck(t);
+                System.out.println("No type error found, executing program instead");
                 Interpreter interp = new Interpreter(p);
                 SimpleHeap h = new SimpleHeap(interp);
                 System.out.println("Executing " + filename);
                 interp.run(h);
+                System.out.println("No errors found even though the program should fail.");
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (TypeError e) {
-                System.out.println("TypeError as expected");
+                System.out.println("TypeError as expected for " + filename);
+                passedTests++;
             } catch (ExecError e) {
-                System.out.println("ExecError as expected");
+                System.out.println("ExecError as expected for " + filename);
+                passedTests++;
             }
         }
     }
 
     public static void main(String[] arg) {
+        passedTests = 0;
         runPositiveTests();
         runNegativeTests();
+        System.out.println(passedTests + " tests passed out of " + (validFiles.length + invalidFiles.length));
     }
 }
