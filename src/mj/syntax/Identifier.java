@@ -34,7 +34,7 @@ public class Identifier implements Type, Expression {
 		} else if (vars.values.containsKey(this)) {
 			return vars.values.get(this);
 		} else {
-			throw new ExecError("Identifier evaluation : undefined variable, array or object");
+			throw new ExecError("Identifier evaluation : undefined variable, array or object " + this.name + " at line " + this.line);
 		}
 	}
 
@@ -62,23 +62,38 @@ public class Identifier implements Type, Expression {
 	}
 
 	public boolean isSubtypeOf(Type t, TypeChecker context) {
-		Type thisType = context.lookup(this);
-		if (thisType == this) {
-			return context.inheritsFrom(this, t);
+		if (context.isClass(this)) {
+			try {
+				// if t corresponds to a class, we can cast it to an identifier
+				Identifier superId = (Identifier) t;
+				return context.inheritsFrom(this, superId);
+			} catch (ClassCastException e) {
+				// t is not associated to a class
+				return false;
+			}
+		} else {
+			Type thisType = context.lookup(this);
+			return thisType.isSubtypeOf(t, context);
 		}
-		return thisType.isSubtypeOf(t, context);
-
 	}
 
 	public Type type(TypeChecker context) throws TypeError {
-		return context.lookup(this);
+		// separe lookupVar et lookupClass
+		Type res = context.lookup(this);
+		if (res != null) {
+			return res;
+		}
+		throw new TypeError(
+				"l:" + this.line + ", c:" + this.col + " - " + this.name + " cannot be resolved to a variable");
+
 	}
 
-    public void checkInitialization(TypeChecker context) throws TypeError {
-        if (context.isLocal(this) && !context.isInitialized(this)) {
-            throw new TypeError("Variable " + this.toString() + " is not initialized");
-        }
-    }
+	public void checkInitialization(TypeChecker context) throws TypeError {
+		if (context.isLocal(this) && !context.isInitialized(this)) {
+			throw new TypeError(
+					"l:" + this.line + ", c:" + this.col + " - Variable " + this.toString() + " is not initialized");
+		}
+	}
 
 	@Override
 	public Value defaultValue() {

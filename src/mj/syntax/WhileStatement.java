@@ -19,10 +19,15 @@ public class WhileStatement implements Statement {
 	}
 
 	public void eval(Interpreter interp, Heap heap, LocalVar vars) throws ExecError {
-		Int cond = (Int) expression.eval(interp, heap, vars);
-		while(cond.val != 0) {
-			statement.eval(interp, heap, vars);
-			cond = (Int) expression.eval(interp, heap, vars);
+		// On cast en Int parce que l'expression doit etre un booleen
+		try {
+			Int cond = (Int) expression.eval(interp, heap, vars);
+			while(cond.val != 0) {
+				statement.eval(interp, heap, vars);
+				cond = (Int) expression.eval(interp, heap, vars);
+			}
+		} catch (ClassCastException e) {
+			throw new ExecError("WhileStatement : Unable to cast condition to boolean");
 		}
 	}
 

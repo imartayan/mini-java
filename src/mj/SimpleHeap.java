@@ -4,22 +4,37 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 // import java.util.Hashtable;
-// import java.util.Map;
 
 import mj.syntax.*;
 
 public class SimpleHeap implements Heap {
 
-	// TODO ajouter des champs ici
+	Map<Identifier, ClassDeclaration> classes;
+	Map<Identifier, Value> objects;
+	Map<Identifier, Value> arrays;
 
 	public SimpleHeap(Interpreter interp) {
-		// TODO
+		classes = interp.classes;
+		objects = interp.objects;
+		arrays = interp.arrays;	
 	}
 
 	public Value allocObject(Identifier className) {
 		// Imported java.util.Collections just for that :
-		return new ObjectRef(className, Collections.emptyList());
+		ObjectRef obj = new ObjectRef(className, Collections.emptyList());
+		ClassDeclaration classDec = classes.get(className);
+		for (VarDeclaration varDec : classDec.varDeclarations) {
+			obj.ref.init(varDec.identifier, varDec.type, varDec.type.defaultValue());
+		}
+		while (classDec.superClass.isPresent()) {
+			classDec = classes.get(classDec.superClass.get());
+			for (VarDeclaration varDec : classDec.varDeclarations) {
+				obj.ref.init(varDec.identifier, varDec.type, varDec.type.defaultValue());
+			}	
+		}
+		return obj;
 	}
 
 	public Value allocArray(Int size) {

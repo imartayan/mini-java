@@ -17,15 +17,16 @@ import mj.parser.Parser;
 import mj.syntax.Program;
 
 public class TypeChecker {
-    // TODO : Rajoutez autant de champs et méthodes que nécessaire dans cette
-    // classe.
-
     protected Map<Identifier, Map<Identifier, Type>> classVariables = new Hashtable<>();
     protected Map<Identifier, Map<Identifier, Couples<Type, List<Type>>>> classMethods = new Hashtable<>();
     protected Map<Identifier, Identifier> inheritance = new Hashtable<>();
     protected Map<Identifier, Type> currentVariables = new Hashtable<>();
     protected Map<Identifier, Boolean> initializedVariables = new Hashtable<>();
     protected Identifier currentClass;
+
+    public boolean isClass(Identifier id) {
+        return this.classVariables.containsKey(id);
+    }
 
     public void getClassAttributesTypes(ClassDeclaration classDec) {
         Map<Identifier, Type> varMap = new Hashtable<>();
@@ -60,22 +61,30 @@ public class TypeChecker {
             Identifier parentId = this.inheritance.get(classId);
             copyParentAttributesTypes(parentId);
             // copy variables from parent
-            this.classVariables.get(parentId).forEach((k, v) -> this.classVariables.get(classId).put(k, v));
+            Map<Identifier, Type> classVarMap = this.classVariables.get(classId);
+            this.classVariables.get(parentId).forEach((k, v) -> {
+                // don't overwrite existing variables
+                if (!classVarMap.containsKey(k)) {
+                    classVarMap.put(k, v);
+                }
+            });
             // copy methods from parent
-            this.classMethods.get(parentId).forEach((k, v) -> this.classMethods.get(classId).put(k, v));
+            Map<Identifier, Couples<Type, List<Type>>> classMethMap = this.classMethods.get(classId);
+            this.classMethods.get(parentId).forEach((k, v) -> {
+                // don't overwrite existing methods
+                if (!classMethMap.containsKey(k)) {
+                    classMethMap.put(k, v);
+                }
+            });
         }
-    }
-
-    public void setCurrentClass(ClassDeclaration classDec) {
-        this.currentClass = classDec.name;
     }
 
     public Identifier getCurrentClass() {
         return this.currentClass;
     }
 
-    public boolean isClass(Identifier id) {
-        return this.classVariables.containsKey(id);
+    public void setCurrentClass(ClassDeclaration classDec) {
+        this.currentClass = classDec.name;
     }
 
     public void addVariable(Identifier varId, Type type) {
@@ -124,12 +133,12 @@ public class TypeChecker {
         return this.classMethods.get(classId).get(methodId);
     }
 
-    public boolean inheritsFrom(Identifier classId, Type superType) {
+    public boolean inheritsFrom(Identifier classId, Identifier superId) {
         Identifier parentId = classId;
-        while (this.lookup(parentId) != superType && this.inheritance.containsKey(parentId)) {
+        while (!parentId.equals(superId) && this.inheritance.containsKey(parentId)) {
             parentId = this.inheritance.get(parentId);
         }
-        return this.lookup(parentId) == superType;
+        return parentId.equals(superId);
     }
 
     public static void main(String[] arg) {

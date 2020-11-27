@@ -33,7 +33,7 @@ public class AllocationExpression implements Expression {
    public Type type(TypeChecker context) throws TypeError {
       Type res = context.lookup(identifier);
       if (res == null || !context.isClass(identifier)) {
-         throw new TypeError("Unbound class constructor " + identifier.name + "()");
+         throw new TypeError("l:" + identifier.line + ", c:" + identifier.col + " - Unbound class constructor " + identifier.name + "()");
       }
       return res;
    }

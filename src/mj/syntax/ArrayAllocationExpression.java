@@ -18,6 +18,7 @@ public class ArrayAllocationExpression implements Expression {
 
 	public Value eval(Interpreter interp, Heap heap, LocalVar vars) throws ExecError {
 		try {
+			// cast en Int car la taille du tableau a allouer doit etre un entier
 			return heap.allocArray((Int) size.eval(interp, heap, vars));
 		} catch (ClassCastException e) {
 			throw new ExecError("ArrayAllocationExpression : Unable to cast size to Int");
@@ -37,7 +38,7 @@ public class ArrayAllocationExpression implements Expression {
 		if(!sizeType.isSubtypeOf(new IntegerType(), context)) {
 			throw new TypeError("Type mismatch: cannot convert from " + sizeType.toString() + " to integer");
 		}
-		return sizeType;
+		return new ArrayType();
 	}
 
     public void checkInitialization(TypeChecker context) throws TypeError {
