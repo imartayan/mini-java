@@ -26,15 +26,14 @@ public class Program {
 	}
 
 	public void typeCheck(TypeChecker context) throws TypeError {
-
-		for (ClassDeclaration cdec : this.declarations) {
-			context.getClassAttributesTypes(cdec);
-        }
-
         context.getInheritance(this.declarations);
 
+		for (ClassDeclaration cdec : this.declarations) {
+			context.initAttributesTypes(cdec);
+        }
+
         for (ClassDeclaration cdec : this.declarations) {
-            context.copyParentAttributesTypes(cdec.name);
+            context.inheritAttributesTypes(cdec.name);
         }
 
         this.main.typeCheck(context);
