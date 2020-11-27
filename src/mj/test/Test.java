@@ -39,6 +39,7 @@ public class Test {
         "tests/error/TestArgNumber.java",
         "tests/error/TestReturnType.java",
         "tests/error/TestInitialization.java",
+        "tests/error/TestBoolOperation.java",
         "tests/error/TestIndexTooBig.java",
         "tests/error/BinaryTree-error.java",
         "tests/error/BubbleSort-error.java",
