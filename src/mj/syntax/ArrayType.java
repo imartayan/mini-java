@@ -2,6 +2,7 @@ package mj.syntax;
 
 import mj.Value;
 import mj.type_checker.TypeChecker;
+import mj.Int;
 
 public class ArrayType implements Type {
 
@@ -19,7 +20,7 @@ public class ArrayType implements Type {
     }
 
     public Value defaultValue() {
-    	return null;
+    	return new Int(0);
     };
 
 }

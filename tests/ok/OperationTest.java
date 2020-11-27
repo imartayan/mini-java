@@ -10,6 +10,6 @@ class OperationTest {
 
         t[0] = b;
 
-        System.out.println((a + t[0]));
+        System.out.println(a + t[0]);
         }
     }
