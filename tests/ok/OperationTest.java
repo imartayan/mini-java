@@ -12,6 +12,8 @@ class OperationTest {
         b = a;
         a = t[0];
         b = a + b;
+        t[0] = a * b;
+        b = b - b;
 
         System.out.println(a);
     }
