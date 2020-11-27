@@ -84,9 +84,9 @@ public class MessageSend implements Expression {
 
 	public Type type(TypeChecker context) throws TypeError {
 		try {
-			Identifier exprId = (Identifier) this.receiver.type(context); // This throws an exception if the expression
-																			// isn't an identifier, and more
-																			// specifically a class name
+			Identifier exprId = (Identifier) this.receiver.type(context);
+			// This throws an exception if the expression isn't an identifier, and more
+			// specifically a class name
 			if (!context.isClass(exprId)) {
 				throw new ClassCastException();
 			}
@@ -104,7 +104,7 @@ public class MessageSend implements Expression {
 			while (argsIterator.hasNext() && expectedIterator.hasNext()) {
 				Type argsNext = argsIterator.next().type(context);
 				Type expectedNext = expectedIterator.next();
-				if (argsNext != expectedNext) {
+				if (!argsNext.isSubtypeOf(expectedNext, context)) {
 					throw new TypeError("l:" + this.name.line + ", c:" + this.name.col
 							+ " - Argument type does not match: expected " + expectedNext.toString() + " but was "
 							+ argsNext.toString());
