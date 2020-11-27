@@ -23,8 +23,9 @@ public class Test {
             "tests/ok/Factorial.java", "tests/ok/LinearSearch.java", "tests/ok/MoreThan4.java",
             "tests/ok/QuickSort.java", "tests/ok/TreeVisitor.java" };
 
-    private static String[] invalidFiles = { "tests/error/TestArgType.java", "tests/error/TestArgNumber.java",
-            "tests/error/TestInitialization.java", "tests/error/BinaryTree-error.java",
+    private static String[] invalidFiles = { "tests/error/TestVarType.java", "tests/error/TestArgType.java",
+            "tests/error/TestArgNumber.java", "tests/error/TestReturnType.java", "tests/error/TestInitialization.java",
+            "tests/error/TestIndexTooBig.java", "tests/error/BinaryTree-error.java",
             "tests/error/BubbleSort-error.java", "tests/error/Factorial-error.java",
             "tests/error/LinearSearch-error.java", "tests/error/MoreThan4-error.java",
             "tests/error/QuickSort-error.java", "tests/error/TreeVisitor-error.java" };
