@@ -26,6 +26,8 @@ public class ArrayLookup implements Expression {
 			return heap.arrayLookup(array, index);
 		} catch (ClassCastException e) {
 			throw new ExecError("ArrayLookup.eval() : Unable to cast index argument to Int");
+		} catch (ArrayIndexOutOfBoundsException e) {
+			throw new ExecError("ArrayLookup : Array index out of bounds");
 		}
 	}
 
