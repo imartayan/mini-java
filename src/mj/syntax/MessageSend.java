@@ -104,7 +104,7 @@ public class MessageSend implements Expression {
 			while (argsIterator.hasNext() && expectedIterator.hasNext()) {
 				Type argsNext = argsIterator.next().type(context);
 				Type expectedNext = expectedIterator.next();
-				if (argsNext != expectedNext) {
+				if (!argsNext.isSubtypeOf(expectedNext, context)) {
 					throw new TypeError("l:" + this.name.line + ", c:" + this.name.col
 							+ " - Argument type does not match: expected " + expectedNext.toString() + " but was "
 							+ argsNext.toString());
