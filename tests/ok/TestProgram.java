@@ -1,10 +1,13 @@
-class CheckProgram{
+class TestProgram{
     public static void main(String[] a){
-        System.out.println(42);
+        TestProgramC obj;
+        boolean res;
+        obj = new TestProgramC();
+        res = obj.initC();
     }
 }
 
-class CheckProgramA{
+class TestProgramA{
     int a;
     public boolean initA() {
         a = 1;
@@ -12,8 +15,8 @@ class CheckProgramA{
     }
 }
 
-// Check inheritance from super class
-class CheckProgramB extends CheckProgramA {
+// Test inheritance from super class
+class TestProgramB extends TestProgramA {
     int b;
     public boolean initB() {
         boolean res;
@@ -23,9 +26,9 @@ class CheckProgramB extends CheckProgramA {
     }
 }
 
-// Check inheritance when the attribute is not
+// Test inheritance when the attribute is not
 // directly defined in the super class
-class CheckProgramC extends CheckProgramB {
+class TestProgramC extends TestProgramB {
     int c;
     public boolean initC() {
         boolean res;
