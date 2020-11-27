@@ -8,10 +8,8 @@ class OperationTest {
         b = 2;
         t = new int[1];
 
-        if ((a + b) < 3) {
-            System.out.println(t[42]);
-        } else {
-            a = 1;
+        t[0] = b;
+
+        System.out.println((a + t[0]));
         }
     }
-}

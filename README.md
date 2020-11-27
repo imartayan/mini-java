@@ -10,8 +10,12 @@ On discute donc ci-après des détails de l'implémentation de ces trois différ
 
 ## Gestion de l'interpréteur
 
+
 truc(s) à dire :
 - param > field en terme de priorité
+Interpreter a reçu de nouveaux champs : arrays et objects. Ils font le liens entre les noms de variables de type Identifier et l'objet ou le tableau qu'elles représentent. La possibilité de mettre ces champs dans Heap ou dans SimpleHeap a été étudiée mais n'a pas été retenue : dans Heap, il fallait leur donner une valeur par défaut, ce qui ne correspondait pas à ce que nous attendions. Dans SimpleHeap, nous pouvions laisser les champs sans initialisation, mais comme ces champs n'appartenaient pas à la classe mère, il nous fallait caster tous les Heap en SimpleHeap pour pouvoir les utiliser, ce qui n'était pas pratique, surtout dans l'optique d'utiliser ensuite AvancedHeap.    
+Interpreter a également reçu un champ currentObject, qui contient l'identifiant de l'objet sur le-quel l'interpreteur execute des choses actuellement. Ce champs est notament utile pour le fichier ThisExpression, où lors d'appel de méthodes.
+On a recontré la nécéssité d'avoir pour tous les objets crés, que leurs adresses soient stockés dans une variable ou non, un identifiant pour pouvoir s'y référer autrement que par leur valeur-adresse. Nous avons donc créer une nouvelle classe UniqueIdentifier, qui hérite de Identifier et qui, à chaque fois qu'elle est appellée renvoit un identifiant unique. Cet identifiant ne peut pas entrer en collision avec les noms de variable que donne l'utilisateur.  
 
 ## Gestion de la vérification de types
 
