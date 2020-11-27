@@ -78,7 +78,8 @@ public class MessageSend implements Expression {
 		while (method == null) {
 			if (interp.methods.get(methodsClassName).containsKey(this.name)) {
 				method = interp.methods.get(methodsClassName).get(this.name);
-			} else if (methodsClass.superClass.isPresent()) { // If not found, check for superClass
+			} else if (methodsClass.superClass.isPresent()) {
+                // If not found, check for superClass
 				methodsClassName = methodsClass.superClass.get();
 				methodsClass = interp.classes.get(methodsClassName);
 			} else {
@@ -99,16 +100,18 @@ public class MessageSend implements Expression {
 		ClassDeclaration currentClass = interp.classes.get(heap.classname(interp.objects.get(interp.currentObject)));
 		Value object = interp.objects.get(interp.currentObject);
 		for (VarDeclaration varDec : currentClass.varDeclarations) {
-			if (!(workVars.types.containsKey(varDec.identifier))) { // Si l'identifiant a déjà été donné pour un
-																	// paramètre, la valeur du champs est ignoré.
+			if (!(workVars.types.containsKey(varDec.identifier))) {
+                // Si l'identifiant a déjà été donné pour un
+				// paramètre, la valeur du champs est ignoré.
 				workVars.init(varDec.identifier, varDec.type, heap.fieldLookup(object, varDec.identifier));
 			}
 		}
 		while (currentClass.superClass.isPresent()) {
 			currentClass = interp.classes.get(currentClass.superClass.get());
 			for (VarDeclaration varDec : currentClass.varDeclarations) {
-				if (!(workVars.types.containsKey(varDec.identifier))) { // Si l'identifiant a déjà été donné pour un
-																		// paramètre, la valeur du champs est ignoré.
+				if (!(workVars.types.containsKey(varDec.identifier))) {
+                    // Si l'identifiant a déjà été donné pour un
+			        // paramètre, la valeur du champs est ignoré.
 					workVars.init(varDec.identifier, varDec.type, heap.fieldLookup(object, varDec.identifier));
 				}
 			}
@@ -142,38 +145,47 @@ public class MessageSend implements Expression {
 
 	public Type type(TypeChecker context) throws TypeError {
 		try {
-			Identifier exprId = (Identifier) this.receiver.type(context);
-			// This throws an exception if the expression isn't an identifier, and more
-			// specifically a class name
-			if (!context.isClass(exprId)) {
-				throw new ClassCastException(); // See the catch block error
+			Identifier classId = (Identifier) this.receiver.type(context);
+			// This throws an exception if the expression isn't an identifier
+			// and more specifically a class name
+			if (!context.isClass(classId)) {
+                throw new ClassCastException();
+                // See the catch block error
 			}
-
-			if (!context.isMethod(exprId, this.name)) { // Check that the method is defined
-				throw new TypeError("l:" + exprId.line + ", c:" + exprId.col + " - Method " + this.name.toString()
-						+ " undefined for class " + exprId.toString());
-			}
-			Couples<Type, List<Type>> expectedType = context.lookupMethod(exprId, this.name);
-			if (this.arguments.size() != expectedType.second.size()) { // Check the number of arguments is correct
+			if (!context.isMethod(classId, this.name)) {
+                // Check that the method is defined
 				throw new TypeError(
-						"l:" + this.name.line + ", c:" + this.name.col + " - Unexpected number of arguments");
+                    "l:" + classId.line + ", c:" + classId.col + " - Method " + this.name.toString() + " undefined for class " + classId.toString()
+                );
+			}
+			Couples<Type, List<Type>> expectedType = context.lookupMethod(classId, this.name);
+			if (this.arguments.size() != expectedType.second.size()) {
+                // Check the number of arguments is correct
+				throw new TypeError(
+                    "l:" + this.name.line + ", c:" + this.name.col + " - Unexpected number of arguments"
+                );
 			}
 
 			Iterator<Expression> argsIterator = this.arguments.iterator();
 			Iterator<Type> expectedIterator = expectedType.second.iterator();
-			while (argsIterator.hasNext() && expectedIterator.hasNext()) { 	// Select the next arguments
-				Type argsNext = argsIterator.next().type(context); 			// and check if the variable passed
-				Type expectedNext = expectedIterator.next(); 				// is of the proper declared type
+			while (argsIterator.hasNext() && expectedIterator.hasNext()) {
+                // Select the next arguments
+                Type argsNext = argsIterator.next().type(context);
+                // and check if the variable passed
+                Type expectedNext = expectedIterator.next();
+                // is of the proper declared type
 				if (!argsNext.isSubtypeOf(expectedNext, context)) {
-					throw new TypeError("l:" + this.name.line + ", c:" + this.name.col
-							+ " - Argument type does not match: expected " + expectedNext.toString() + " but was "
-							+ argsNext.toString());
+					throw new TypeError(
+                        "l:" + this.name.line + ", c:" + this.name.col + " - Argument type does not match: expected " + expectedNext.toString() + " but was " + argsNext.toString()
+                    );
 				}
 			}
-			return expectedType.first; // Return the function's declared return type if no exception was thrown
+            // Return the function's declared return type if no exception was thrown
+            return expectedType.first;
 		} catch (ClassCastException e) {
-			throw new TypeError("l:" + this.name.line + ", c:" + this.name.col + " - " + receiver.toString()
-					+ " cannot be evaluated to an existing class");
+			throw new TypeError(
+                "l:" + this.name.line + ", c:" + this.name.col + " - " + receiver.toString() + " cannot be evaluated to an existing class"
+            );
 		}
 	}
 

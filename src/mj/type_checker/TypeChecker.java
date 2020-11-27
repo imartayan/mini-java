@@ -32,7 +32,7 @@ public class TypeChecker {
     }
 
     public boolean isMethod(Identifier classId, Identifier methodId) {
-        return this.classVariables.get(classId).containsKey(methodId);
+        return this.classMethods.get(classId).containsKey(methodId);
     }
 
     public boolean isVariable(Identifier varId) {
