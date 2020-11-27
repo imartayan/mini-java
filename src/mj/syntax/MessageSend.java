@@ -63,8 +63,8 @@ public class MessageSend implements Expression {
 		return res;
 	}
 
-	public Value eval(Interpreter interp, Heap heap, LocalVar vars) throws ExecError { 
-		Identifier exCurrentObject= interp.currentObject;
+	public Value eval(Interpreter interp, Heap heap, LocalVar vars) throws ExecError {
+		Identifier exCurrentObject = interp.currentObject;
 		//Defining new currentObject
 		try {
 			interp.currentObject = (Identifier) receiver; //The receiver must be the object wich the method belongs to.
