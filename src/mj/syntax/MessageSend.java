@@ -26,8 +26,8 @@ public class MessageSend implements Expression {
 	}
 
 	public Value LEGACYeval(Interpreter interp, Heap heap, LocalVar vars) throws ExecError {
-		//Saving data before method appliciation
-		Identifier exCurrentObject= interp.currentObject;
+		// Saving data before method appliciation
+		Identifier exCurrentObject = interp.currentObject;
 		try {
 			interp.currentObject = (Identifier) receiver;
 		} catch (ClassCastException e) {
@@ -63,30 +63,30 @@ public class MessageSend implements Expression {
 		return res;
 	}
 
-	public Value eval(Interpreter interp, Heap heap, LocalVar vars) throws ExecError { 
-		Identifier exCurrentObject= interp.currentObject;
-		//Defining new currentObject
+	public Value eval(Interpreter interp, Heap heap, LocalVar vars) throws ExecError {
+		Identifier exCurrentObject = interp.currentObject;
+		// Defining new currentObject
 		try {
-			interp.currentObject = (Identifier) receiver; //The receiver must be the object wich the method belongs to.
+			interp.currentObject = (Identifier) receiver; // The receiver must be the object wich the method belongs to.
 		} catch (ClassCastException e) {
 			throw new ExecError("MessageSend : cannot cast receiver to Identifier");
 		}
-		//Getting method
+		// Getting method
 		ClassDeclaration methodsClass = interp.classes.get(heap.classname(interp.objects.get(interp.currentObject)));
 		Identifier methodsClassName = methodsClass.name;
 		MethodDeclaration method = null;
-		while (method==null) {
+		while (method == null) {
 			if (interp.methods.get(methodsClassName).containsKey(this.name)) {
 				method = interp.methods.get(methodsClassName).get(this.name);
-			} else if (methodsClass.superClass.isPresent()) { //If not found, check for superClass
-				methodsClassName=methodsClass.superClass.get();
-				methodsClass=interp.classes.get(methodsClassName);
+			} else if (methodsClass.superClass.isPresent()) { // If not found, check for superClass
+				methodsClassName = methodsClass.superClass.get();
+				methodsClass = interp.classes.get(methodsClassName);
 			} else {
 				throw new ExecError("MessageSend : No definition for this method");
 			}
 		}
 		// Setting-up variables
-			//Parameters
+		// Parameters
 		LocalVar workVars = new LocalVar(method.params);
 		Iterator<VarDeclaration> paramsIterator = method.params.iterator();
 		Iterator<Expression> argumentsIterator = this.arguments.iterator();
@@ -95,26 +95,28 @@ public class MessageSend implements Expression {
 			Value argValue = argumentsIterator.next().eval(interp, heap, vars);
 			workVars.store(paramIdentifier, argValue);
 		}
-			//Objects fields
+		// Objects fields
 		ClassDeclaration currentClass = interp.classes.get(heap.classname(interp.objects.get(interp.currentObject)));
 		Value object = interp.objects.get(interp.currentObject);
 		for (VarDeclaration varDec : currentClass.varDeclarations) {
-			if (!(workVars.types.containsKey(varDec.identifier))) {	//Si l'identifiant a déjà été donné pour un paramètre, la valeur du champs est ignoré. 
+			if (!(workVars.types.containsKey(varDec.identifier))) { // Si l'identifiant a déjà été donné pour un
+																	// paramètre, la valeur du champs est ignoré.
 				workVars.init(varDec.identifier, varDec.type, heap.fieldLookup(object, varDec.identifier));
 			}
 		}
-        while (currentClass.superClass.isPresent()) {
-            currentClass = interp.classes.get(currentClass.superClass.get());
-            for (VarDeclaration varDec : currentClass.varDeclarations) {
-				if (!(workVars.types.containsKey(varDec.identifier))) {	//Si l'identifiant a déjà été donné pour un paramètre, la valeur du champs est ignoré. 
+		while (currentClass.superClass.isPresent()) {
+			currentClass = interp.classes.get(currentClass.superClass.get());
+			for (VarDeclaration varDec : currentClass.varDeclarations) {
+				if (!(workVars.types.containsKey(varDec.identifier))) { // Si l'identifiant a déjà été donné pour un
+																		// paramètre, la valeur du champs est ignoré.
 					workVars.init(varDec.identifier, varDec.type, heap.fieldLookup(object, varDec.identifier));
 				}
-	        }    
+			}
 		}
-		//Evaluation
+		// Evaluation
 		method.body.eval(interp, heap, workVars);
 		Value res = method.result.eval(interp, heap, workVars);
-		//Leaving
+		// Leaving
 		interp.currentObject = exCurrentObject;
 		return res;
 	}
@@ -144,8 +146,9 @@ public class MessageSend implements Expression {
 			// This throws an exception if the expression isn't an identifier, and more
 			// specifically a class name
 			if (!context.isClass(exprId)) {
-				throw new ClassCastException();
+				throw new ClassCastException(); // See the catch block error
 			}
+
 			Couples<Type, List<Type>> expectedType = context.lookupMethod(exprId, this.name);
 			if (expectedType == null) {
 				throw new TypeError("l:" + exprId.line + ", c:" + exprId.col + " - Method " + this.name.toString()
@@ -155,18 +158,19 @@ public class MessageSend implements Expression {
 				throw new TypeError(
 						"l:" + this.name.line + ", c:" + this.name.col + " - Unexpected number of arguments");
 			}
+
 			Iterator<Expression> argsIterator = this.arguments.iterator();
 			Iterator<Type> expectedIterator = expectedType.second.iterator();
-			while (argsIterator.hasNext() && expectedIterator.hasNext()) {
-				Type argsNext = argsIterator.next().type(context);
-				Type expectedNext = expectedIterator.next();
+			while (argsIterator.hasNext() && expectedIterator.hasNext()) { 	// Select the next arguments
+				Type argsNext = argsIterator.next().type(context); 			// and check if the variable passed
+				Type expectedNext = expectedIterator.next(); 				// is of the proper declared type
 				if (!argsNext.isSubtypeOf(expectedNext, context)) {
 					throw new TypeError("l:" + this.name.line + ", c:" + this.name.col
 							+ " - Argument type does not match: expected " + expectedNext.toString() + " but was "
 							+ argsNext.toString());
 				}
 			}
-			return expectedType.first;
+			return expectedType.first;	// Return the function's declared return type if no exception was thrown
 		} catch (ClassCastException e) {
 			throw new TypeError("l:" + this.name.line + ", c:" + this.name.col + " - " + receiver.toString()
 					+ " cannot be evaluated to an existing class");
