@@ -1,13 +1,13 @@
-class TestProgram{
+class TestInherit{
     public static void main(String[] a){
-        TestProgramC obj;
+        TestInheritC obj;
         boolean res;
-        obj = new TestProgramC();
+        obj = new TestInheritC();
         res = obj.initC();
     }
 }
 
-class TestProgramA{
+class TestInheritA{
     int a;
     public boolean initA() {
         a = 1;
@@ -16,7 +16,7 @@ class TestProgramA{
 }
 
 // Test inheritance from super class
-class TestProgramB extends TestProgramA {
+class TestInheritB extends TestInheritA {
     int b;
     public boolean initB() {
         boolean res;
@@ -28,7 +28,7 @@ class TestProgramB extends TestProgramA {
 
 // Test inheritance when the attribute is not
 // directly defined in the super class
-class TestProgramC extends TestProgramB {
+class TestInheritC extends TestInheritB {
     int c;
     public boolean initC() {
         boolean res;
