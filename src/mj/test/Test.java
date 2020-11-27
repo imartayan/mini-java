@@ -47,6 +47,7 @@ public class Test {
             try {
                 Program p = Parser.run(new FileInputStream(filename));
                 Interpreter interp = new Interpreter(p);
+                System.out.print("Evaluating " + filename + "\n");
                 interp.run(new SimpleHeap(interp));
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
