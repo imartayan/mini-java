@@ -24,9 +24,9 @@ public class AssignmentStatement implements Statement {
 			interp.arrays.put(identifier, value);
 		}
 		if (vars.types.containsKey(identifier)) {
-			vars.store(identifier, expression.eval(interp, heap, vars));
+			vars.store(identifier, value);
 		} else {
-		heap.fieldUpdate(interp.currentObject.eval(interp, heap, vars),identifier,value);
+			heap.fieldUpdate(interp.currentObject.eval(interp, heap, vars) ,identifier, value);
 		}
 	}
 

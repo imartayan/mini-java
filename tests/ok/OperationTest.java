@@ -1,5 +1,5 @@
 class OperationTest {
-    public static void main(String[] args){
+    public static void main(String[] args) {
         int a;
         int b;
         int[] t;
@@ -9,7 +9,10 @@ class OperationTest {
         t = new int[1];
 
         t[0] = b;
+        b = a;
+        a = t[0];
+        b = a + b;
 
-        System.out.println(a + t[0]);
-        }
+        System.out.println(a);
     }
+}
