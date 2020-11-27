@@ -38,7 +38,7 @@ public class ArrayAllocationExpression implements Expression {
 		if(!sizeType.isSubtypeOf(new IntegerType(), context)) {
 			throw new TypeError("Type mismatch: cannot convert from " + sizeType.toString() + " to integer");
 		}
-		return sizeType;
+		return new ArrayType();
 	}
 
     public void checkInitialization(TypeChecker context) throws TypeError {

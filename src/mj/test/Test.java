@@ -15,12 +15,18 @@ import mj.ExecError;
 
 public class Test {
     private static String[] validFiles = {
-            "tests/ok/TypecheckProgram.java",
-            "tests/ok/TypecheckMain.java",
-            "tests/ok/TypecheckClass.java",
-            "tests/ok/TypecheckMethod.java",
-            "tests/ok/OperationTest.java",
-            "tests/ok/BinaryTree.java"
+        "tests/ok/TypecheckProgram.java",
+        "tests/ok/TypecheckMain.java",
+        "tests/ok/TypecheckClass.java",
+        "tests/ok/TypecheckMethod.java",
+        "tests/ok/BinaryTree.java",
+        "tests/ok/BubbleSort.java",
+        "tests/ok/Factorial.java",
+        "tests/ok/LinearSearch.java",
+        "tests/ok/MoreThan4.java",
+        "tests/ok/QuickSort.java",
+        "tests/ok/OperationTest.java",
+        "tests/ok/TreeVisitor.java"
     };
     private static String[] invalidFiles = {
         "tests/error/TypecheckNotInitialized.java",
@@ -60,7 +66,7 @@ public class Test {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (TypeError e) {
-                System.out.println("TypeError");
+                System.out.println("TypeError as expected");
             }
         }
     }
