@@ -33,7 +33,7 @@ public class PrintStatement implements Statement {
 
 	public void typeCheck(TypeChecker context) throws TypeError {
         this.expression.checkInitialization(context);
-        if (expression.type(context).isSubtypeOf(new IntegerType(), context)) {
+        if (!expression.type(context).isSubtypeOf(new IntegerType(), context)) {
 			throw new TypeError("Cannot print non integer parameter");
 		}
 
