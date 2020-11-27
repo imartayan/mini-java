@@ -23,12 +23,12 @@ public class MainClass {
 	public void typeCheck(TypeChecker context) throws TypeError {
 		for (VarDeclaration varDec : this.declarations) {
             context.addVariable(varDec.identifier, varDec.type);
-            context.addInitVariable(varDec.identifier, false);
+            context.addLocalVariable(varDec.identifier, false);
         }
         this.body.typeCheck(context);
 		for (VarDeclaration varDec : this.declarations) {
             context.removeVariable(varDec.identifier);
-            context.removeInitVariable(varDec.identifier);
+            context.removeLocalVariable(varDec.identifier);
         }
 	}
 

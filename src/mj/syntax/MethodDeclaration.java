@@ -69,7 +69,7 @@ public class MethodDeclaration {
 		}
 		for (VarDeclaration newVar : this.declarations) {
 			context.addVariable(newVar.identifier, newVar.type);
-			context.addInitVariable(newVar.identifier, false);
+			context.addLocalVariable(newVar.identifier, false);
 		}
 		this.body.typeCheck(context);
 		Type returnType = this.result.type(context);
@@ -83,7 +83,7 @@ public class MethodDeclaration {
 		}
 		for (VarDeclaration newVar : this.declarations) {
 			context.removeVariable(newVar.identifier);
-			context.removeInitVariable(newVar.identifier);
+			context.removeLocalVariable(newVar.identifier);
 		}
 	}
 }
