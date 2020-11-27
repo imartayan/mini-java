@@ -1,10 +1,19 @@
-class CheckClass{
+class TestClass{
     public static void main(String[] a){
-        System.out.println(42);
+        TestClassA objA;
+        TestClassB objB;
+        TestClassC objC;
+        boolean res;
+        objA = new TestClassA();
+        objB = new TestClassB();
+        objC = new TestClassC();
+        res = objA.initA();
+        res = objB.initB();
+        res = objC.initC();
     }
 }
 
-class CheckClassA{
+class TestClassA{
     int a;
     public boolean initA() {
         a = 1;
@@ -12,8 +21,8 @@ class CheckClassA{
     }
 }
 
-// Check inheritance from super class
-class CheckClassB extends CheckClassA {
+// Test inheritance from super class
+class TestClassB extends TestClassA {
     int b;
     public boolean initB() {
         boolean res;
@@ -23,8 +32,8 @@ class CheckClassB extends CheckClassA {
     }
 }
 
-// Check that other class attributes are not kept in memory
-class CheckClassC extends CheckClassA {
+// Test that other class attributes are not kept in memory
+class TestClassC extends TestClassA {
     boolean b;
     public boolean initC() {
         boolean res;
